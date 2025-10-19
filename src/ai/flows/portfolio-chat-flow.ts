@@ -20,6 +20,9 @@ const personalInfo = "Luis Alberto Gómez is a passionate software developer wit
 
 const PortfolioChatInputSchema = z.object({
   query: z.string().describe('The user\'s question about the portfolio.'),
+  photoDataUri: z.string().optional().describe(
+    "A photo, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+  )
 });
 export type PortfolioChatInput = z.infer<typeof PortfolioChatInputSchema>;
 
@@ -62,12 +65,14 @@ ${socialLinksList}
 
 **Your Task:**
 1.  Analyze the user's query: \`{{{query}}}\`
-2.  Formulate a concise and helpful answer based on the knowledge base.
-3.  Determine which section of the portfolio is most relevant to the query. The sections are: 'about', 'skills', 'projects', 'contact'.
-4.  If the query is a general greeting, a thank you, or doesn't relate to a specific section, set the sectionId to 'none'.
-5.  If the user's query is best answered by navigating to a section, your response MUST be a short, natural phrase that confirms the action. For example: "Claro, aquí están sus proyectos." or "Te llevo a la sección de contacto." or "Estas son las habilidades de Luis." Then, set the 'sectionId' to the appropriate section ('about', 'skills', 'projects', or 'contact').
-6.  If the query can be answered without navigating, provide a helpful text answer and set 'sectionId' to 'none'.
-7.  Respond in Spanish.
+2.  {{#if photoDataUri}}If a photo is provided, analyze it. The user may ask questions about it. For example, if they upload a photo of a person, you could describe them. Photo: {{media url=photoDataUri}}{{/if}}
+3.  Formulate a concise and helpful answer based on the knowledge base and the photo if available.
+4.  Determine which section of the portfolio is most relevant to the query. The sections are: 'about', 'skills', 'projects', 'contact'.
+5.  If the query is a general greeting, a thank you, or doesn't relate to a specific section, set the sectionId to 'none'.
+6.  If the user's query is best answered by navigating to a section, your response MUST be a short, natural phrase that confirms the action. For example: "Claro, aquí están sus proyectos." or "Te llevo a la sección de contacto." or "Estas son las habilidades de Luis." Then, set the 'sectionId' to the appropriate section ('about', 'skills', 'projects', or 'contact').
+7.  If the query can be answered without navigating, provide a helpful text answer and set 'sectionId' to 'none'.
+8.  If the user asks how to upload an image, explain that they can use the image upload button in the chat.
+9.  Respond in Spanish.
 
 Examples:
 - Query: "Háblame de Luis" -> Response: "Por supuesto, aquí tienes más información sobre Luis." and set sectionId to 'about'.
@@ -92,3 +97,4 @@ const portfolioChatFlow = ai.defineFlow(
     return output;
   }
 );
+

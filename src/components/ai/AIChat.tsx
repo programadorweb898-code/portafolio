@@ -6,15 +6,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Bot, Loader2, Mic, MicOff, Send, User, Volume2, VolumeX, X } from 'lucide-react';
+import { Bot, Loader2, Mic, MicOff, Send, User, Volume2, VolumeX, X, Paperclip, Image as ImageIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { portfolioChat } from '@/ai/flows/portfolio-chat-flow';
 import { portfolioChatTts } from '@/ai/flows/portfolio-chat-tts-flow';
+import Image from 'next/image';
 
 type Message = {
   id: string;
   role: 'user' | 'assistant';
   text: string;
+  image?: string;
 };
 
 // Extend window type for SpeechRecognition
@@ -33,10 +35,14 @@ export function AIChat() {
   const [isRecording, setIsRecording] = useState(false);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [isTtsLoading, setIsTtsLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageDataUri, setImageDataUri] = useState<string | null>(null);
+
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const recognitionRef = useRef<any>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
 
   useEffect(() => {
@@ -83,9 +89,23 @@ export function AIChat() {
             {
                 id: 'intro',
                 role: 'assistant',
-                text: "¡Hola! Soy el asistente de IA de Luis. ¿Qué te gustaría saber sobre su portafolio? Puedes preguntarme sobre sus habilidades, proyectos o cómo contactarlo. También puedes usar el micrófono para hablar."
+                text: "¡Hola! Soy el asistente de IA de Luis. ¿Qué te gustaría saber sobre su portafolio? Puedes preguntarme sobre sus habilidades, proyectos o cómo contactarlo. También puedes usar el micrófono para hablar o subir una imagen."
             }
         ]);
+        setImagePreview(null);
+        setImageDataUri(null);
+    }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        setImageDataUri(loadEvent.target?.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -98,15 +118,27 @@ export function AIChat() {
       currentInput = input;
     }
     
-    if (!currentInput.trim() || isLoading) return;
+    if (!currentInput.trim() && !imageDataUri || isLoading) return;
 
-    const userMessage: Message = { id: Date.now().toString(), role: 'user', text: currentInput };
+    const userMessage: Message = { 
+      id: Date.now().toString(), 
+      role: 'user', 
+      text: currentInput,
+      image: imagePreview ?? undefined,
+    };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
+    setImagePreview(null);
     setIsLoading(true);
 
     try {
-      const response = await portfolioChat({ query: currentInput });
+      const response = await portfolioChat({ 
+        query: currentInput,
+        photoDataUri: imageDataUri ?? undefined
+      });
+
+      setImageDataUri(null);
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -206,11 +238,16 @@ export function AIChat() {
                       <div
                         className={cn(
                           'max-w-[80%] rounded-lg px-4 py-2 text-sm',
-                          message.role === 'user'
+                           message.role === 'user'
                             ? 'bg-secondary text-secondary-foreground'
                             : 'bg-card border'
                         )}
                       >
+                         {message.image && (
+                          <div className="mb-2">
+                             <Image src={message.image} alt="User upload" width={150} height={150} className="rounded-md" />
+                          </div>
+                        )}
                         {message.text}
                       </div>
                       {message.role === 'user' && (
@@ -233,8 +270,31 @@ export function AIChat() {
                 </div>
               </ScrollArea>
             </CardContent>
+            {imagePreview && (
+                <div className="p-4 border-t">
+                    <div className="relative w-24 h-24">
+                        <Image src={imagePreview} alt="Image preview" layout="fill" objectFit="cover" className="rounded-md" />
+                         <Button
+                            variant="destructive"
+                            size="icon"
+                            className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                            onClick={() => {
+                                setImagePreview(null);
+                                setImageDataUri(null);
+                                if (fileInputRef.current) fileInputRef.current.value = '';
+                            }}
+                        >
+                            <X className="h-4 w-4" />
+                        </Button>
+                    </div>
+                </div>
+            )}
             <CardFooter>
               <form onSubmit={handleSendMessage} className="flex w-full items-center space-x-2">
+                <input type="file" ref={fileInputRef} onChange={handleImageChange} accept="image/*" className="hidden" />
+                 <Button type="button" size="icon" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={isLoading || isRecording || !!imagePreview}>
+                  <Paperclip className="h-4 w-4" />
+                </Button>
                 <Input
                   value={input}
                   onChange={e => setInput(e.target.value)}
@@ -258,3 +318,4 @@ export function AIChat() {
     </>
   );
 }
+
