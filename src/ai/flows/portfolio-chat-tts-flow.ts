@@ -68,7 +68,7 @@ const portfolioChatTtsFlow = ai.defineFlow(
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Alloy' },
+            prebuiltVoiceConfig: { voiceName: 'erinome' },
           },
         },
       },
