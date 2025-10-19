@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from '@/lib/utils';
+import { AIChat } from '@/components/ai/AIChat';
 
 export const metadata: Metadata = {
   title: 'LuisDev Portfolio',
@@ -22,6 +23,7 @@ export default function RootLayout({
       </head>
       <body className={cn("font-body antialiased min-h-screen bg-background")}>
         {children}
+        <AIChat />
         <Toaster />
       </body>
     </html>
