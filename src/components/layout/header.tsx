@@ -1,16 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, CodeXml, Download } from "lucide-react";
+import { Menu, CodeXml, Download, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { socialLinks, navLinks } from "@/lib/data";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +24,27 @@ export function Header() {
   }, []);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  const handleProfilePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        const newImageUrl = loadEvent.target?.result as string;
+        // Find the hero image element and update its src
+        const heroImage = document.getElementById('hero-profile-image') as HTMLImageElement;
+        if (heroImage) {
+          heroImage.src = newImageUrl;
+        }
+      };
+      reader.readAsDataURL(file);
+      closeMobileMenu();
+    }
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
 
   return (
     <header
@@ -99,6 +121,11 @@ export function Header() {
                 </nav>
               </div>
               <div className="flex flex-col gap-4">
+                <input type="file" ref={fileInputRef} onChange={handleProfilePictureChange} accept="image/*" className="hidden" />
+                <Button onClick={handleUploadClick} variant="outline" size="lg">
+                  <Upload className="mr-2 h-5 w-5" />
+                  Cambiar foto
+                </Button>
                 <div className="flex justify-center gap-4">
                   {socialLinks.map((social) => (
                     <Link

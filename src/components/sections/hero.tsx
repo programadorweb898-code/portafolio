@@ -41,6 +41,7 @@ export function HeroSection() {
             {heroImage && (
               <div className="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]">
                 <Image
+                  id="hero-profile-image"
                   src={heroImage.imageUrl}
                   alt={heroImage.description}
                   width={400}
