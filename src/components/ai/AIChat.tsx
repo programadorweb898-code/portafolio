@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Bot, Loader2, Mic, MicOff, Send, User, Volume2, VolumeX, X } from 'lucide-react';
+import { Bot, Loader2, Mic, MicOff, Send, User, Volume2, VolumeX, X, Paperclip } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { portfolioChat } from '@/ai/flows/portfolio-chat-flow';
 import { portfolioChatTts } from '@/ai/flows/portfolio-chat-tts-flow';
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 
 type Message = {
   id: string;
@@ -35,12 +36,13 @@ export function AIChat() {
   const [isRecording, setIsRecording] = useState(false);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [isTtsLoading, setIsTtsLoading] = useState(false);
-
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const recognitionRef = useRef<any>(null);
-
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -58,7 +60,14 @@ export function AIChat() {
       };
 
       recognitionRef.current.onerror = (event: any) => {
-        console.error('Speech recognition error', event.error);
+        console.error('Speech recognition error:', event.error);
+        if (event.error === 'not-allowed') {
+          toast({
+            variant: 'destructive',
+            title: 'Permiso de micrófono denegado',
+            description: 'Por favor, habilita el acceso al micrófono en la configuración de tu navegador para usar el chat de voz.',
+          });
+        }
         setIsRecording(false);
       };
       
@@ -66,7 +75,7 @@ export function AIChat() {
         setIsRecording(false);
       };
     }
-  }, []);
+  }, [toast]);
 
   const handleToggleMic = () => {
     if (isRecording) {
@@ -101,20 +110,23 @@ export function AIChat() {
       currentInput = input;
     }
     
-    if (!currentInput.trim() || isLoading) return;
+    if ((!currentInput.trim() && !uploadedImage) || isLoading) return;
 
     const userMessage: Message = { 
       id: Date.now().toString(), 
       role: 'user', 
       text: currentInput,
+      image: uploadedImage ?? undefined,
     };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
+    setUploadedImage(null);
     setIsLoading(true);
 
     try {
       const response = await portfolioChat({ 
         query: currentInput,
+        ...(uploadedImage && { photoDataUri: uploadedImage }),
       });
 
       const assistantMessage: Message = {
@@ -157,6 +169,25 @@ export function AIChat() {
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        const newImageUrl = loadEvent.target?.result as string;
+        setUploadedImage(newImageUrl);
+        setMessages(prev => [...prev, {
+          id: `img-${Date.now()}`,
+          role: 'user',
+          text: `Imagen subida: ${file.name}`,
+          image: newImageUrl,
+        }]);
+        setInput('');
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -256,12 +287,16 @@ export function AIChat() {
                   placeholder="Escribe o habla..."
                   disabled={isLoading || isRecording}
                 />
+                 <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
+                 <Button type="button" size="icon" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={isLoading}>
+                    <Paperclip className="h-4 w-4" />
+                 </Button>
                  {recognitionRef.current && (
                   <Button type="button" size="icon" onClick={handleToggleMic} disabled={isLoading} variant={isRecording ? 'destructive' : 'outline'}>
                     {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </Button>
                 )}
-                <Button type="submit" size="icon" disabled={isLoading || isRecording || !input.trim()}>
+                <Button type="submit" size="icon" disabled={isLoading || isRecording || (!input.trim() && !uploadedImage)}>
                   <Send className="h-4 w-4" />
                 </Button>
               </form>
