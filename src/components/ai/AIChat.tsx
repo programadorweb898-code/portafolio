@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Bot, Loader2, Mic, MicOff, Send, User, Volume2, VolumeX, X, Paperclip, Image as ImageIcon } from 'lucide-react';
+import { Bot, Loader2, Mic, MicOff, Send, User, Volume2, VolumeX, Paperclip } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { portfolioChat } from '@/ai/flows/portfolio-chat-flow';
 import { portfolioChatTts } from '@/ai/flows/portfolio-chat-tts-flow';
@@ -138,6 +138,8 @@ export function AIChat() {
       });
 
       setImageDataUri(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -273,7 +275,7 @@ export function AIChat() {
             {imagePreview && (
                 <div className="p-4 border-t">
                     <div className="relative w-24 h-24">
-                        <Image src={imagePreview} alt="Image preview" layout="fill" objectFit="cover" className="rounded-md" />
+                        <Image src={imagePreview} alt="Image preview" fill objectFit="cover" className="rounded-md" />
                          <Button
                             variant="destructive"
                             size="icon"
@@ -306,7 +308,7 @@ export function AIChat() {
                     {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </Button>
                 )}
-                <Button type="submit" size="icon" disabled={isLoading || isRecording}>
+                <Button type="submit" size="icon" disabled={isLoading || isRecording || (!input.trim() && !imageDataUri)}>
                   <Send className="h-4 w-4" />
                 </Button>
               </form>
@@ -319,3 +321,4 @@ export function AIChat() {
   );
 }
 
+    
