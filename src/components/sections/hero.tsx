@@ -1,10 +1,15 @@
+
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { placeholderImages } from "@/lib/data";
 
-export function HeroSection() {
+type HeroSectionProps = {
+  profileImageUrl?: string;
+};
+
+export function HeroSection({ profileImageUrl }: HeroSectionProps) {
   const heroImage = placeholderImages.find(p => p.id === 'hero-portrait');
 
   return (
@@ -38,11 +43,11 @@ export function HeroSection() {
             </div>
           </div>
           <div className="flex items-center justify-center">
-            {heroImage && (
+            {profileImageUrl && heroImage && (
               <div className="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]">
                 <Image
                   id="hero-profile-image"
-                  src={heroImage.imageUrl}
+                  src={profileImageUrl}
                   alt={heroImage.description}
                   width={400}
                   height={400}
