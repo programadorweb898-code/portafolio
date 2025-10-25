@@ -96,8 +96,8 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
         <div className="flex items-center gap-2 md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <div className="flex items-center gap-2">
+                <Button variant="ghost" className="p-0 rounded-full h-auto">
+                    <div className="flex items-center gap-2 p-2">
                          <Avatar className="h-8 w-8">
                             <AvatarImage src={profileImageUrl} alt="Tu foto de perfil" />
                             <AvatarFallback>LG</AvatarFallback>
