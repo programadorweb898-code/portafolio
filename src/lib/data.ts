@@ -12,6 +12,7 @@ import {
   Twitter,
   type LucideIcon,
   Sparkles,
+  CloudSun,
 } from "lucide-react";
 
 type Skill = {
@@ -41,11 +42,11 @@ type Project = {
 
 export const projects: Project[] = [
   {
-    title: "E-Commerce Platform",
-    description: "A full-featured e-commerce website with a custom CMS for product management, user authentication, and a Stripe-powered checkout process.",
-    tech: ["Next.js", "React", "TypeScript", "Node.js", "Stripe", "PostgreSQL"],
-    imageId: "project-ecommerce",
-    liveUrl: "#",
+    title: "Weather Forecast App",
+    description: "A clean and modern weather application that provides real-time weather data and forecasts for any location worldwide, using a third-party weather API.",
+    tech: ["React", "TypeScript", "Tailwind CSS", "REST API"],
+    imageId: "project-weather",
+    liveUrl: "https://studio--studio-7002244696-f3e59.us-central1.hosted.app",
     repoUrl: "#",
   },
   {
@@ -80,16 +81,10 @@ export const placeholderImages: ImagePlaceholder[] = [
     imageHint: "man portrait",
   },
   {
-    id: "project-portfolio-ai",
-    description: "Screenshot of the AI-powered portfolio website",
-    imageUrl: "https://picsum.photos/seed/portfolio-view/600/400",
-    imageHint: "portfolio website",
-  },
-  {
-    id: "project-ecommerce",
-    description: "Screenshot of an e-commerce website",
-    imageUrl: "https://picsum.photos/seed/ecom-app/600/400",
-    imageHint: "online store",
+    id: "project-weather",
+    description: "Screenshot of a weather forecast application",
+    imageUrl: "https://picsum.photos/seed/weather-app/600/400",
+    imageHint: "weather forecast",
   },
   {
     id: "project-dashboard",
