@@ -11,6 +11,7 @@ import {
   Github,
   Twitter,
   type LucideIcon,
+  Sparkles,
 } from "lucide-react";
 
 type Skill = {
@@ -39,6 +40,13 @@ type Project = {
 };
 
 export const projects: Project[] = [
+    {
+    title: "AI-Powered Portfolio",
+    description: "An interactive personal portfolio built in Firebase Studio, featuring a voice-enabled AI assistant to answer questions and navigate the site.",
+    tech: ["Next.js", "Genkit", "Firebase", "Tailwind CSS", "ShadCN UI"],
+    imageId: "project-portfolio-ai",
+    liveUrl: "/",
+  },
   {
     title: "E-Commerce Platform",
     description: "A full-featured e-commerce website with a custom CMS for product management, user authentication, and a Stripe-powered checkout process.",
@@ -77,6 +85,12 @@ export const placeholderImages: ImagePlaceholder[] = [
     description: "Portrait of Luis Alberto Gómez",
     imageUrl: "https://picsum.photos/seed/luis-portrait/400/400",
     imageHint: "man portrait",
+  },
+  {
+    id: "project-portfolio-ai",
+    description: "Screenshot of the AI-powered portfolio website",
+    imageUrl: "https://picsum.photos/seed/portfolio-view/600/400",
+    imageHint: "portfolio website",
   },
   {
     id: "project-ecommerce",
