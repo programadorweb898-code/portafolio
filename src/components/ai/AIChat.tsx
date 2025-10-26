@@ -36,12 +36,10 @@ export function AIChat() {
   const [isRecording, setIsRecording] = useState(false);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [isTtsLoading, setIsTtsLoading] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-
+  
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const recognitionRef = useRef<any>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -60,7 +58,6 @@ export function AIChat() {
       };
 
       recognitionRef.current.onerror = (event: any) => {
-        console.error('Speech recognition error:', event.error);
         if (event.error === 'not-allowed') {
           toast({
             variant: 'destructive',
@@ -110,23 +107,20 @@ export function AIChat() {
       currentInput = input;
     }
     
-    if ((!currentInput.trim() && !uploadedImage) || isLoading) return;
+    if (!currentInput.trim() || isLoading) return;
 
     const userMessage: Message = { 
       id: Date.now().toString(), 
       role: 'user', 
       text: currentInput,
-      image: uploadedImage ?? undefined,
     };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
-    setUploadedImage(null);
     setIsLoading(true);
 
     try {
       const response = await portfolioChat({ 
         query: currentInput,
-        ...(uploadedImage && { photoDataUri: uploadedImage }),
       });
 
       const assistantMessage: Message = {
@@ -169,25 +163,6 @@ export function AIChat() {
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (loadEvent) => {
-        const newImageUrl = loadEvent.target?.result as string;
-        setUploadedImage(newImageUrl);
-        setMessages(prev => [...prev, {
-          id: `img-${Date.now()}`,
-          role: 'user',
-          text: `Imagen subida: ${file.name}`,
-          image: newImageUrl,
-        }]);
-        setInput('');
-      };
-      reader.readAsDataURL(file);
     }
   };
 
@@ -287,16 +262,12 @@ export function AIChat() {
                   placeholder="Escribe o habla..."
                   disabled={isLoading || isRecording}
                 />
-                 <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
-                 <Button type="button" size="icon" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={isLoading}>
-                    <Paperclip className="h-4 w-4" />
-                 </Button>
                  {recognitionRef.current && (
                   <Button type="button" size="icon" onClick={handleToggleMic} disabled={isLoading} variant={isRecording ? 'destructive' : 'outline'}>
                     {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </Button>
                 )}
-                <Button type="submit" size="icon" disabled={isLoading || isRecording || (!input.trim() && !uploadedImage)}>
+                <Button type="submit" size="icon" disabled={isLoading || isRecording || !input.trim()}>
                   <Send className="h-4 w-4" />
                 </Button>
               </form>
