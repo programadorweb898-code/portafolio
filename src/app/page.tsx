@@ -11,15 +11,9 @@ import { ContactSection } from "@/components/sections/contact";
 import { placeholderImages } from "@/lib/data";
 
 export default function Home() {
-  const [profileImageUrl, setProfileImageUrl] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    const heroImage = placeholderImages.find(p => p.id === 'hero-portrait');
-    if (heroImage) {
-      setProfileImageUrl(heroImage.imageUrl);
-    }
-  }, []);
-
+  const [profileImageUrl, setProfileImageUrl] = useState<string | undefined>(
+    placeholderImages.find(p => p.id === 'hero-portrait')?.imageUrl
+  );
 
   return (
     <div className="flex flex-col min-h-screen">
