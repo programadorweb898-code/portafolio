@@ -40,13 +40,6 @@ type Project = {
 };
 
 export const projects: Project[] = [
-    {
-    title: "AI-Powered Portfolio",
-    description: "An interactive personal portfolio built in Firebase Studio, featuring a voice-enabled AI assistant to answer questions and navigate the site.",
-    tech: ["Next.js", "Genkit", "Firebase", "Tailwind CSS", "ShadCN UI"],
-    imageId: "project-portfolio-ai",
-    liveUrl: "/",
-  },
   {
     title: "E-Commerce Platform",
     description: "A full-featured e-commerce website with a custom CMS for product management, user authentication, and a Stripe-powered checkout process.",
