@@ -1,34 +1,57 @@
 import {
-  Atom,
-  AppWindow,
-  ServerCog,
-  Code,
-  Cloud,
-  Wind,
-  Database,
-  GitMerge,
   Linkedin,
   Github,
-  Twitter,
   type LucideIcon,
-  Sparkles,
-  CloudSun,
 } from "lucide-react";
+
+// Importar logos reales de tecnologías
+import { 
+  FaHtml5,
+  FaCss3Alt,
+  FaJs,
+  FaPython,
+  FaReact,
+  FaNodeJs,
+  FaBootstrap,
+  FaGitAlt,
+} from 'react-icons/fa';
+
+import {
+  SiNextdotjs,
+  SiTypescript,
+  SiFirebase,
+  SiTailwindcss,
+  SiMui,
+  SiMongodb,
+  SiN8N,
+} from 'react-icons/si';
+
+import { TbSparkles } from 'react-icons/tb';
+import type { IconType } from 'react-icons';
 
 type Skill = {
   name: string;
-  icon: LucideIcon;
+  icon: IconType;
+  color?: string;
 };
 
 export const skills: Skill[] = [
-  { name: "React / React Native", icon: Atom },
-  { name: "Next.js", icon: AppWindow },
-  { name: "Node.js", icon: ServerCog },
-  { name: "TypeScript", icon: Code },
-  { name: "Firebase", icon: Cloud },
-  { name: "Tailwind CSS", icon: Wind },
-  { name: "SQL & NoSQL", icon: Database },
-  { name: "Git & GitHub", icon: GitMerge },
+  { name: "HTML", icon: FaHtml5, color: "#E34F26" },
+  { name: "CSS", icon: FaCss3Alt, color: "#1572B6" },
+  { name: "JavaScript", icon: FaJs, color: "#F7DF1E" },
+  { name: "Python", icon: FaPython, color: "#3776AB" },
+  { name: "React / React Native", icon: FaReact, color: "#61DAFB" },
+  { name: "Next.js", icon: SiNextdotjs, color: "#000000" },
+  { name: "Node.js", icon: FaNodeJs, color: "#339933" },
+  { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+  { name: "Firebase", icon: SiFirebase, color: "#FFCA28" },
+  { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "Bootstrap", icon: FaBootstrap, color: "#7952B3" },
+  { name: "Material UI", icon: SiMui, color: "#007FFF" },
+  { name: "SQL & NoSQL", icon: SiMongodb, color: "#47A248" },
+  { name: "Git & GitHub", icon: FaGitAlt, color: "#F05032" },
+  { name: "Integración de IA", icon: TbSparkles, color: "#FF6B6B" },
+  { name: "n8n", icon: SiN8N, color: "#EA4B71" },
 ];
 
 type Project = {
@@ -42,26 +65,19 @@ type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Weather Forecast App",
-    description: "A clean and modern weather application that provides real-time weather data and forecasts for any location worldwide, using a third-party weather API.",
+    title: "Aplicación del Clima",
+    description: "Una aplicación moderna del clima que proporciona datos meteorológicos en tiempo real y pronósticos para cualquier ubicación en el mundo, utilizando una API de clima de terceros.",
     tech: ["React", "TypeScript", "Tailwind CSS", "REST API"],
     imageId: "project-weather",
-    liveUrl: "https://studio--studio-7002244696-f3e59.us-central1.hosted.app",
+    liveUrl: "https://clima-5nko.onrender.com",
     repoUrl: "#",
   },
   {
-    title: "Project Management Dashboard",
-    description: "A collaborative dashboard for teams to manage tasks, track project progress, and communicate in real-time. Built with a focus on UX.",
-    tech: ["React", "Firebase", "Tailwind CSS", "Chart.js"],
+    title: "Gestor de Cuentas de Deudores",
+    description: "Una aplicación colaborativa para gestionar cuentas de deudores, realizar seguimiento de pagos y administrar información financiera de manera eficiente.",
+    tech: ["React", "Firebase", "Tailwind CSS", "Node.js"],
     imageId: "project-dashboard",
-    liveUrl: "#",
-    repoUrl: "#",
-  },
-  {
-    title: "Mobile Fitness App",
-    description: "A cross-platform mobile application for tracking workouts, setting fitness goals, and connecting with a community of users.",
-    tech: ["React Native", "TypeScript", "Firebase Auth", "Firestore"],
-    imageId: "project-fitness",
+    liveUrl: "https://debttracker-repo-1.onrender.com",
     repoUrl: "#",
   },
 ];
@@ -76,27 +92,21 @@ type ImagePlaceholder = {
 export const placeholderImages: ImagePlaceholder[] = [
   {
     id: "hero-portrait",
-    description: "Portrait of Luis Alberto Gómez",
+    description: "Retrato de Luis Alberto Gómez",
     imageUrl: "https://placehold.co/400x400/3F51B5/FFFFFF?text=LAG&font=playfairdisplay",
     imageHint: "man portrait",
   },
   {
     id: "project-weather",
-    description: "Screenshot of a weather forecast application",
-    imageUrl: "https://picsum.photos/seed/weather-app/600/400",
-    imageHint: "weather forecast",
+    description: "Captura de pantalla de la aplicación del clima",
+    imageUrl: "/proyecto-clima.png",
+    imageHint: "weather forecast application",
   },
   {
     id: "project-dashboard",
-    description: "Screenshot of a project management dashboard",
-    imageUrl: "https://picsum.photos/seed/dash-app/600/400",
-    imageHint: "dashboard chart",
-  },
-  {
-    id: "project-fitness",
-    description: "Screenshot of a mobile fitness application",
-    imageUrl: "https://picsum.photos/seed/fit-app/600/400",
-    imageHint: "mobile app",
+    description: "Captura de pantalla del gestor de cuentas de deudores",
+    imageUrl: "/debtTracker_image.png",
+    imageHint: "debt tracker dashboard",
   },
 ];
 
@@ -107,9 +117,8 @@ type SocialLink = {
 };
 
 export const socialLinks: SocialLink[] = [
-  { name: "LinkedIn", url: "https://www.linkedin.com/", icon: Linkedin },
-  { name: "GitHub", url: "https://github.com/", icon: Github },
-  { name: "Twitter", url: "https://twitter.com/", icon: Twitter },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/luis-programadorweb", icon: Linkedin },
+  { name: "GitHub", url: "https://github.com/programadorweb898-code", icon: Github },
 ];
 
 type NavLink = {
@@ -118,8 +127,8 @@ type NavLink = {
 };
 
 export const navLinks: NavLink[] = [
-    { href: "#about", label: "About" },
-    { href: "#skills", label: "Skills" },
-    { href: "#projects", label: "Projects" },
-    { href: "#contact", label: "Contact" },
+    { href: "#about", label: "Acerca de" },
+    { href: "#skills", label: "Habilidades" },
+    { href: "#projects", label: "Proyectos" },
+    { href: "#contact", label: "Contacto" },
 ]

@@ -22,22 +22,22 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
               Luis Alberto Gómez
             </h1>
             <p className="text-xl text-muted-foreground md:text-2xl">
-              Passionate Software Developer, aged 45.
+              Desarrollador de Software Apasionado, 45 años.
             </p>
             <div className="max-w-xl mx-auto lg:mx-0 space-y-4">
               <p className="text-lg text-foreground">
-                With over 15 years in the industry, I specialize in building modern, responsive, and user-friendly web applications. My goal is to transform complex problems into elegant software solutions that drive business value and enhance user experience.
+                Especializado en la construcción de aplicaciones web modernas, responsivas y fáciles de usar. Mi objetivo es transformar problemas complejos en soluciones de software elegantes que generen valor empresarial y mejoren la experiencia del usuario.
               </p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-start pt-4">
               <Button asChild size="lg">
                 <Link href="#projects">
-                  View My Work
+                  Ver Mi Trabajo
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <Link href="#contact">
-                  Contact Me <ArrowDown className="ml-2 h-4 w-4 animate-bounce" />
+                  Contáctame <ArrowDown className="ml-2 h-4 w-4 animate-bounce" />
                 </Link>
               </Button>
             </div>

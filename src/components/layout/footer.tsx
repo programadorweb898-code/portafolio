@@ -9,7 +9,7 @@ export function Footer() {
         <div className="flex items-center gap-2">
           <CodeXml className="h-6 w-6 text-primary" />
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Luis Alberto Gómez. All rights reserved.
+            &copy; {new Date().getFullYear()} Luis Alberto Gómez. Todos los derechos reservados.
           </p>
         </div>
         <div className="flex items-center gap-4">

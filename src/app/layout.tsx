@@ -5,8 +5,8 @@ import { cn } from '@/lib/utils';
 import { AIChat } from '@/components/ai/AIChat';
 
 export const metadata: Metadata = {
-  title: 'LuisDev Portfolio',
-  description: 'Professional portfolio for Luis Alberto Gómez, a software developer.',
+  title: 'LuisDev Portafolio',
+  description: 'Portafolio profesional de Luis Alberto Gómez, desarrollador de software.',
 };
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="es" className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

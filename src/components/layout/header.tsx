@@ -89,7 +89,7 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
           <Button asChild>
             <a href="/luis-gomez-resume.pdf" download>
               <Download className="mr-2 h-4 w-4" />
-              Resume
+              CV
             </a>
           </Button>
         </div>
@@ -104,12 +104,12 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
                         </Avatar>
                         <Menu className="h-6 w-6" />
                     </div>
-                    <span className="sr-only">Toggle navigation menu</span>
+                    <span className="sr-only">Abrir menú de navegación</span>
                 </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full max-w-xs bg-card">
                  <SheetHeader>
-                   <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
+                   <SheetTitle className="sr-only">Menú de Navegación Móvil</SheetTitle>
                  </SheetHeader>
                 <div className="flex h-full flex-col justify-between p-6 pt-0">
                 <div className="flex flex-col gap-6">
@@ -155,7 +155,7 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
                     <Button asChild size="lg">
                     <a href="/luis-gomez-resume.pdf" download>
                         <Download className="mr-2 h-5 w-5" />
-                        Download Resume
+                        Descargar CV
                     </a>
                     </Button>
                 </div>

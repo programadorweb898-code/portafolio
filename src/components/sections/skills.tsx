@@ -19,8 +19,8 @@ export function SkillsSection() {
   const handleSuggestSkills = async () => {
     if (!projectsInput.trim()) {
       toast({
-        title: 'Input Required',
-        description: 'Please describe at least one project.',
+        title: 'Entrada Requerida',
+        description: 'Por favor, describe al menos un proyecto.',
         variant: 'destructive',
       });
       return;
@@ -32,14 +32,14 @@ export function SkillsSection() {
       const result = await suggestSkillsFromProjects({ projectDescriptions });
       setSuggestedSkills(result.suggestedSkills);
       toast({
-        title: 'Suggestions Ready!',
-        description: 'Here are some skills you might want to add to your list.',
+        title: '¡Sugerencias Listas!',
+        description: 'Aquí hay algunas habilidades que podrías agregar a tu lista.',
       });
     } catch (error) {
       console.error('Error suggesting skills:', error);
       toast({
-        title: 'An Error Occurred',
-        description: 'Failed to get skill suggestions. Please try again later.',
+        title: 'Ocurrió un Error',
+        description: 'No se pudieron obtener sugerencias de habilidades. Por favor, intenta más tarde.',
         variant: 'destructive',
       });
     } finally {
@@ -51,18 +51,24 @@ export function SkillsSection() {
     <section id="skills" className="w-full py-16 md:py-24 lg:py-32 bg-secondary">
       <div className="container px-4 md:px-6">
         <div className="mx-auto max-w-xl text-center">
-          <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">My Skills</h2>
+          <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">Mis Habilidades</h2>
           <p className="mt-4 text-muted-foreground">
-            A showcase of the technologies and tools I work with to bring ideas to life.
+            Una muestra de las tecnologías y herramientas con las que trabajo para dar vida a las ideas.
           </p>
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {skills.map((skill) => (
-            <Card key={skill.name} className="flex flex-col items-center justify-center p-6 text-center transition-all duration-300 hover:bg-card hover:shadow-lg hover:-translate-y-1">
-              <skill.icon className="h-12 w-12 text-primary" />
-              <h3 className="mt-4 text-lg font-semibold">{skill.name}</h3>
-            </Card>
-          ))}
+          {skills.map((skill) => {
+            const IconComponent = skill.icon;
+            return (
+              <Card key={skill.name} className="flex flex-col items-center justify-center p-6 text-center transition-all duration-300 hover:bg-card hover:shadow-lg hover:-translate-y-1">
+                <IconComponent 
+                  className="h-12 w-12" 
+                  style={{ color: skill.color }}
+                />
+                <h3 className="mt-4 text-lg font-semibold">{skill.name}</h3>
+              </Card>
+            );
+          })}
         </div>
         
         <div className="mt-20">
@@ -72,9 +78,9 @@ export function SkillsSection() {
                 <div className="flex items-center gap-3">
                   <Lightbulb className="h-8 w-8 text-amber-500" />
                   <div>
-                    <h3 className="text-xl font-headline font-bold">AI Skill Suggester</h3>
+                    <h3 className="text-xl font-headline font-bold">Sugeridor de Habilidades con IA</h3>
                     <CardDescription>
-                      Describe your projects to get AI-powered skill suggestions.
+                      Describe tus proyectos para obtener sugerencias de habilidades impulsadas por IA.
                     </CardDescription>
                   </div>
                 </div>
@@ -83,25 +89,25 @@ export function SkillsSection() {
                 <Textarea
                   value={projectsInput}
                   onChange={(e) => setProjectsInput(e.target.value)}
-                  placeholder="Describe your projects here, one per line. For example:&#10;- Built a full-stack e-commerce site with Next.js and Stripe.&#10;- Developed a real-time chat application using Firebase."
+                  placeholder="Describe tus proyectos aquí, uno por línea. Por ejemplo:&#10;- Construí un sitio de comercio electrónico full-stack con Next.js y Stripe.&#10;- Desarrollé una aplicación de chat en tiempo real usando Firebase."
                   className="min-h-[120px] bg-background"
                 />
                 <Button onClick={handleSuggestSkills} disabled={isLoading} className="w-full">
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Analyzing...
+                      Analizando...
                     </>
                   ) : (
-                    'Suggest Skills'
+                    'Sugerir Habilidades'
                   )}
                 </Button>
               </CardContent>
               {(isLoading || suggestedSkills.length > 0) && (
                 <CardFooter>
                   <div className="w-full space-y-2">
-                    <h4 className="text-sm font-semibold text-muted-foreground">Suggested Skills:</h4>
-                    {isLoading && <p className="text-sm text-muted-foreground">AI is thinking...</p>}
+                    <h4 className="text-sm font-semibold text-muted-foreground">Habilidades Sugeridas:</h4>
+                    {isLoading && <p className="text-sm text-muted-foreground">La IA está pensando...</p>}
                     <div className="flex flex-wrap gap-2">
                       {suggestedSkills.map((skill, index) => (
                         <Badge key={index} variant="default" className="bg-accent text-accent-foreground animate-in fade-in-50">
