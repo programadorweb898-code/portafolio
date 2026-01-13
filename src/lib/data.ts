@@ -93,7 +93,7 @@ export const placeholderImages: ImagePlaceholder[] = [
   {
     id: "hero-portrait",
     description: "Retrato de Luis Alberto Gómez",
-    imageUrl: "https://placehold.co/400x400/3F51B5/FFFFFF?text=LAG&font=playfairdisplay",
+    imageUrl: "/profile_image.jpeg",
     imageHint: "man portrait",
   },
   {
