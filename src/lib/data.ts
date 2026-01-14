@@ -67,18 +67,42 @@ export const projects: Project[] = [
   {
     title: "Aplicación del Clima",
     description: "Una aplicación moderna del clima que proporciona datos meteorológicos en tiempo real y pronósticos para cualquier ubicación en el mundo, utilizando una API de clima de terceros.",
-    tech: ["React", "TypeScript", "Tailwind CSS", "REST API"],
+    tech: [
+      "Next.js 15",
+      "React 18",
+      "TypeScript",
+      "Tailwind CSS",
+      "Firebase",
+      "Google Genkit AI",
+      "Shadcn/ui",
+      "Lucide Icons",
+      "React Hook Form",
+      "Zod"
+    ],
     imageId: "project-weather",
     liveUrl: "https://clima-5nko.onrender.com",
-    repoUrl: "#",
+    repoUrl: "https://github.com/programadorweb898-code/clima",
   },
   {
     title: "Gestor de Cuentas de Deudores",
     description: "Una aplicación colaborativa para gestionar cuentas de deudores, realizar seguimiento de pagos y administrar información financiera de manera eficiente.",
-    tech: ["React", "Firebase", "Tailwind CSS", "Node.js"],
+    tech: [
+      "Next.js 15",
+      "React 18",
+      "TypeScript",
+      "Firebase",
+      "Firebase Admin",
+      "Firestore",
+      "Tailwind CSS",
+      "Google Genkit AI",
+      "Shadcn/ui",
+      "Framer Motion",
+      "React Hook Form",
+      "Zod"
+    ],
     imageId: "project-dashboard",
     liveUrl: "https://debttracker-repo-1.onrender.com",
-    repoUrl: "#",
+    repoUrl: "https://github.com/programadorweb898-code/DebtTracker-repo",
   },
 ];
 
@@ -93,19 +117,19 @@ export const placeholderImages: ImagePlaceholder[] = [
   {
     id: "hero-portrait",
     description: "Retrato de Luis Alberto Gómez",
-    imageUrl: "/profile_image.jpeg",
+    imageUrl: "https://placehold.co/400x400/3F51B5/FFFFFF?text=LAG&font=playfairdisplay",
     imageHint: "man portrait",
   },
   {
     id: "project-weather",
     description: "Captura de pantalla de la aplicación del clima",
-    imageUrl: "/copilot_image_1768194640523.jpeg",
+    imageUrl: "/proyecto-clima.png",
     imageHint: "weather forecast application",
   },
   {
     id: "project-dashboard",
     description: "Captura de pantalla del gestor de cuentas de deudores",
-    imageUrl: "/debtTracker_image.jpeg",
+    imageUrl: "/debtTracker_image.png",
     imageHint: "debt tracker dashboard",
   },
 ];
