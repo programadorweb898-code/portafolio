@@ -47,19 +47,19 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
     {
       key: 'image',
       content: heroImage && profileImageUrl ? (
-        <div className="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]">
+        <>
           <Image
             id="hero-profile-image"
             src={profileImageUrl}
             alt={heroImage.description}
-            width={400}
-            height={400}
+            fill
             className="rounded-full object-cover shadow-2xl border-4 border-card"
             data-ai-hint={heroImage.imageHint}
             priority
+            sizes="(max-width: 1023px) 300px, 400px"
           />
           <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-pulse"></div>
-        </div>
+        </>
       ) : null,
     },
   ];
@@ -94,18 +94,20 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
               </Button>
             </div>
           </div>
-          <div className="relative flex items-center justify-center min-h-[300px] lg:min-h-[400px]">
-            {animationPhases.map((phase, index) => (
-              <div
-                key={phase.key}
-                className={cn(
-                  'absolute inset-0 flex items-center justify-center transition-opacity duration-1000',
-                  animationStep === index ? 'opacity-100' : 'opacity-0'
-                )}
-              >
-                {phase.content}
-              </div>
-            ))}
+          <div className="flex items-center justify-center">
+            <div className="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]">
+              {animationPhases.map((phase, index) => (
+                <div
+                  key={phase.key}
+                  className={cn(
+                    'absolute inset-0 flex items-center justify-center transition-opacity duration-1000',
+                    animationStep === index ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  )}
+                >
+                  {phase.content}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
