@@ -19,10 +19,10 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
 
   useEffect(() => {
     const timeouts: NodeJS.Timeout[] = [];
-    if (animationStep < 3) {
+    if (animationStep < 2) {
       timeouts.push(setTimeout(() => {
         setAnimationStep(animationStep + 1);
-      }, 3000)); // 3 segundos para cada paso
+      }, 3000));
     }
     return () => timeouts.forEach(clearTimeout);
   }, [animationStep]);
@@ -46,7 +46,7 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
     },
     {
       key: 'image',
-      content: heroImage && profileImageUrl && (
+      content: heroImage && profileImageUrl ? (
         <div className="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]">
           <Image
             id="hero-profile-image"
@@ -60,7 +60,7 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
           />
           <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-pulse"></div>
         </div>
-      ),
+      ) : null,
     },
   ];
 
