@@ -5,27 +5,21 @@ import {
 } from "lucide-react";
 
 // Importar logos reales de tecnologías
-import { 
-  FaHtml5,
-  FaCss3Alt,
-  FaJs,
-  FaPython,
-  FaReact,
-  FaNodeJs,
-  FaBootstrap,
-  FaGitAlt,
-} from 'react-icons/fa';
-
-import {
-  SiNextdotjs,
-  SiTypescript,
-  SiFirebase,
-  SiTailwindcss,
-  SiMui,
-  SiMongodb,
-  SiN8N,
-} from 'react-icons/si';
-
+import { SiHtml5 } from 'react-icons/si';
+import { SiCss3 } from 'react-icons/si';
+import { SiJavascript } from 'react-icons/si';
+import { SiPython } from 'react-icons/si';
+import { SiReact } from 'react-icons/si';
+import { SiNodedotjs } from 'react-icons/si';
+import { SiBootstrap } from 'react-icons/si';
+import { SiNextdotjs } from 'react-icons/si';
+import { SiTypescript } from 'react-icons/si';
+import { SiFirebase } from 'react-icons/si';
+import { SiTailwindcss } from 'react-icons/si';
+import { SiMui } from 'react-icons/si';
+import { SiMongodb } from 'react-icons/si';
+import { SiGit } from 'react-icons/si';
+import { SiN8N } from 'react-icons/si';
 import { TbSparkles } from 'react-icons/tb';
 import type { IconType } from 'react-icons';
 
@@ -36,20 +30,20 @@ type Skill = {
 };
 
 export const skills: Skill[] = [
-  { name: "HTML", icon: FaHtml5, color: "#E34F26" },
-  { name: "CSS", icon: FaCss3Alt, color: "#1572B6" },
-  { name: "JavaScript", icon: FaJs, color: "#F7DF1E" },
-  { name: "Python", icon: FaPython, color: "#3776AB" },
-  { name: "React / React Native", icon: FaReact, color: "#61DAFB" },
+  { name: "HTML", icon: SiHtml5, color: "#E34F26" },
+  { name: "CSS", icon: SiCss3, color: "#1572B6" },
+  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+  { name: "Python", icon: SiPython, color: "#3776AB" },
+  { name: "React / React Native", icon: SiReact, color: "#61DAFB" },
   { name: "Next.js", icon: SiNextdotjs, color: "#000000" },
-  { name: "Node.js", icon: FaNodeJs, color: "#339933" },
+  { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
   { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
   { name: "Firebase", icon: SiFirebase, color: "#FFCA28" },
   { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
-  { name: "Bootstrap", icon: FaBootstrap, color: "#7952B3" },
+  { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3" },
   { name: "Material UI", icon: SiMui, color: "#007FFF" },
   { name: "SQL & NoSQL", icon: SiMongodb, color: "#47A248" },
-  { name: "Git & GitHub", icon: FaGitAlt, color: "#F05032" },
+  { name: "Git & GitHub", icon: SiGit, color: "#F05032" },
   { name: "Integración de IA", icon: TbSparkles, color: "#FF6B6B" },
   { name: "n8n", icon: SiN8N, color: "#EA4B71" },
 ];
@@ -80,7 +74,7 @@ export const projects: Project[] = [
       "Zod"
     ],
     imageId: "project-weather",
-    liveUrl: "https://clima-5nko.onrender.com",
+    liveUrl: "https://studio--studio-7002244696-f3e59.us-central1.hosted.app",
     repoUrl: "https://github.com/programadorweb898-code/clima",
   },
   {
@@ -117,7 +111,7 @@ export const placeholderImages: ImagePlaceholder[] = [
   {
     id: "hero-portrait",
     description: "Retrato de Luis Alberto Gómez",
-    imageUrl: "https://placehold.co/400x400/3F51B5/FFFFFF?text=LAG&font=playfairdisplay",
+    imageUrl: "/portafolio_image.jpg",
     imageHint: "man portrait",
   },
   {
