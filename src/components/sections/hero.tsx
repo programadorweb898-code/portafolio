@@ -1,9 +1,13 @@
 
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { placeholderImages } from "@/lib/data";
+import { cn } from '@/lib/utils';
 
 type HeroSectionProps = {
   profileImageUrl?: string;
@@ -11,6 +15,54 @@ type HeroSectionProps = {
 
 export function HeroSection({ profileImageUrl }: HeroSectionProps) {
   const heroImage = placeholderImages.find(p => p.id === 'hero-portrait');
+  const [animationStep, setAnimationStep] = useState(0);
+
+  useEffect(() => {
+    const timeouts: NodeJS.Timeout[] = [];
+    if (animationStep < 3) {
+      timeouts.push(setTimeout(() => {
+        setAnimationStep(animationStep + 1);
+      }, 3000)); // 3 segundos para cada paso
+    }
+    return () => timeouts.forEach(clearTimeout);
+  }, [animationStep]);
+
+  const animationPhases = [
+    {
+      key: 'text1',
+      content: (
+        <h2 className="text-3xl lg:text-4xl text-foreground font-semibold">
+          Imagina en grande
+        </h2>
+      ),
+    },
+    {
+      key: 'text2',
+      content: (
+        <h2 className="text-3xl lg:text-4xl text-foreground font-semibold">
+          Si lo puedes imaginar, lo puedes programar
+        </h2>
+      ),
+    },
+    {
+      key: 'image',
+      content: heroImage && profileImageUrl && (
+        <div className="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]">
+          <Image
+            id="hero-profile-image"
+            src={profileImageUrl}
+            alt={heroImage.description}
+            width={400}
+            height={400}
+            className="rounded-full object-cover shadow-2xl border-4 border-card"
+            data-ai-hint={heroImage.imageHint}
+            priority
+          />
+          <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-pulse"></div>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <section id="about" className="relative w-full pt-20 lg:pt-28 overflow-hidden">
@@ -42,22 +94,18 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
               </Button>
             </div>
           </div>
-          <div className="flex items-center justify-center">
-            {profileImageUrl && heroImage && (
-              <div className="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]">
-                <Image
-                  id="hero-profile-image"
-                  src={profileImageUrl}
-                  alt={heroImage.description}
-                  width={400}
-                  height={400}
-                  className="rounded-full object-cover shadow-2xl border-4 border-card"
-                  data-ai-hint={heroImage.imageHint}
-                  priority
-                />
-                 <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-pulse"></div>
+          <div className="flex items-center justify-center min-h-[300px] lg:min-h-[400px]">
+            {animationPhases.map((phase, index) => (
+              <div
+                key={phase.key}
+                className={cn(
+                  'absolute transition-opacity duration-1000',
+                  animationStep === index ? 'opacity-100' : 'opacity-0'
+                )}
+              >
+                {phase.content}
               </div>
-            )}
+            ))}
           </div>
         </div>
       </div>
