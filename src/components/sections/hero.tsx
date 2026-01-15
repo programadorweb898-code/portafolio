@@ -31,7 +31,7 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
     {
       key: 'text1',
       content: (
-        <h2 className="text-3xl lg:text-4xl text-foreground font-semibold">
+        <h2 className="text-3xl lg:text-4xl text-foreground font-semibold text-center">
           Imagina en grande
         </h2>
       ),
@@ -39,7 +39,7 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
     {
       key: 'text2',
       content: (
-        <h2 className="text-3xl lg:text-4xl text-foreground font-semibold">
+        <h2 className="text-3xl lg:text-4xl text-foreground font-semibold text-center">
           Si lo puedes imaginar, lo puedes programar
         </h2>
       ),
@@ -94,12 +94,12 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
               </Button>
             </div>
           </div>
-          <div className="flex items-center justify-center min-h-[300px] lg:min-h-[400px]">
+          <div className="relative flex items-center justify-center min-h-[300px] lg:min-h-[400px]">
             {animationPhases.map((phase, index) => (
               <div
                 key={phase.key}
                 className={cn(
-                  'absolute transition-opacity duration-1000',
+                  'absolute inset-0 flex items-center justify-center transition-opacity duration-1000',
                   animationStep === index ? 'opacity-100' : 'opacity-0'
                 )}
               >
