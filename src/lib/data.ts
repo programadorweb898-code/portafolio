@@ -117,13 +117,13 @@ export const placeholderImages: ImagePlaceholder[] = [
   {
     id: "project-weather",
     description: "Captura de pantalla de la aplicación del clima",
-    imageUrl: "/project-weather.png",
+    imageUrl: "/copilot.png",
     imageHint: "weather forecast application",
   },
   {
     id: "project-dashboard",
     description: "Captura de pantalla del gestor de cuentas de deudores",
-    imageUrl: "/project-dashboard.png",
+    imageUrl: "/debtTracker.png",
     imageHint: "debt tracker dashboard",
   },
 ];
