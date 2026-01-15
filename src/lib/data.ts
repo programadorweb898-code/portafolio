@@ -111,19 +111,19 @@ export const placeholderImages: ImagePlaceholder[] = [
   {
     id: "hero-portrait",
     description: "Retrato de Luis Alberto Gómez",
-    imageUrl: "/portafolio_image.jpg",
+    imageUrl: "/portafolio_image.png",
     imageHint: "man portrait",
   },
   {
     id: "project-weather",
     description: "Captura de pantalla de la aplicación del clima",
-    imageUrl: "/copilot.png",
+    imageUrl: "/copilot_image_1768194640523.jpeg",
     imageHint: "weather forecast application",
   },
   {
     id: "project-dashboard",
     description: "Captura de pantalla del gestor de cuentas de deudores",
-    imageUrl: "/debtTracker.png",
+    imageUrl: "/debtTracker_image.jpeg",
     imageHint: "debt tracker dashboard",
   },
 ];
