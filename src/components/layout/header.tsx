@@ -87,7 +87,7 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
             </Link>
           ))}
           <Button asChild>
-            <a href="/luis-gomez-resume.pdf" download>
+            <a href="/luis_CV_FullStack.pdf" download>
               <Download className="mr-2 h-4 w-4" />
               CV
             </a>
@@ -153,7 +153,7 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
                     ))}
                     </div>
                     <Button asChild size="lg">
-                    <a href="/luis-gomez-resume.pdf" download>
+                    <a href="/luis_CV_FullStack (2).pdf" download>
                         <Download className="mr-2 h-5 w-5" />
                         Descargar CV
                     </a>

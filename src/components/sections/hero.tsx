@@ -74,7 +74,7 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
               Luis Alberto Gómez
             </h1>
             <p className="text-xl text-muted-foreground md:text-2xl">
-              Desarrollador de Software Apasionado, 45 años.
+              Desarrollador de Software, 45 años.
             </p>
             <div className="max-w-xl mx-auto lg:mx-0 space-y-4">
               <p className="text-lg text-foreground">
