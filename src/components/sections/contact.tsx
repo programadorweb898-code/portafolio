@@ -4,8 +4,26 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Mail } from "lucide-react";
-
+import {useForm} from "react-hook-form"
 export function ContactSection() {
+  const{
+    handleSubmit,
+    formState;{errors}
+  }=useForm();
+  const onSubmit=async(data)=>{
+    try{
+      const response=await fetch("https://render-repo-36pu.onrender.com/webhook/9793a2bc-1894-4233-9bfa-dbc139fdb8b8",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+      });
+      if(!response.ok) throw new Error("Error al enviar el mensaje");
+      
+      alert(`correo enviado con exto`)
+    }
+  }
   return (
     <section id="contact" className="w-full py-16 md:py-24 lg:py-32 bg-secondary">
       <div className="container px-4 md:px-6">
@@ -26,7 +44,7 @@ export function ContactSection() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="grid gap-6">
+              <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid gap-2">
                   <Label htmlFor="name">Nombre</Label>
                   <Input id="name" placeholder="Tu Nombre" />
