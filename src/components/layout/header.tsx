@@ -87,7 +87,7 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
             </Link>
           ))}
           <Button asChild>
-            <a href="/luis_CV_FullStack.pdf" download>
+            <a href="/luis_CV_FullStack.pdf">
               <Download className="mr-2 h-4 w-4" />
               CV
             </a>
@@ -132,10 +132,6 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
                 </div>
                 <div className="flex flex-col gap-4">
                     <input type="file" ref={fileInputRef} onChange={handleProfilePictureChange} accept="image/*" className="hidden" />
-                    <Button onClick={handleUploadClick} variant="outline" size="lg">
-                    <Upload className="mr-2 h-5 w-5" />
-                    Cambiar foto
-                    </Button>
                     <div className="flex justify-center gap-4">
                     {socialLinks.map((social) => (
                         <Link
@@ -153,7 +149,7 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
                     ))}
                     </div>
                     <Button asChild size="lg">
-                    <a href="/luis_CV_FullStack (2).pdf" download>
+                    <a href="/luis_CV_FullStack .pdf">
                         <Download className="mr-2 h-5 w-5" />
                         Descargar CV
                     </a>
