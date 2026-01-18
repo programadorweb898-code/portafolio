@@ -149,7 +149,7 @@ export function Header({ profileImageUrl, onProfileImageChange }: HeaderProps) {
                     ))}
                     </div>
                     <Button asChild size="lg">
-                    <a href="/luis_CV_FullStack .pdf">
+                    <a href="/luis_CV_FullStack.pdf">
                         <Download className="mr-2 h-5 w-5" />
                         Descargar CV
                     </a>
