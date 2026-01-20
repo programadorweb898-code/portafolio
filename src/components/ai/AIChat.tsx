@@ -28,9 +28,15 @@ declare global {
   }
 }
 
+const initialMessage: Message = {
+  id: 'intro',
+  role: 'assistant',
+  text: "¡Hola! Soy el asistente de IA de Luis. ¿Qué te gustaría saber sobre su portafolio? Puedes preguntarme sobre sus habilidades, proyectos o cómo contactarlo. También puedes usar el micrófono para hablar."
+};
+
 export function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -87,15 +93,6 @@ export function AIChat() {
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
-    if (!isOpen) {
-        setMessages([
-            {
-                id: 'intro',
-                role: 'assistant',
-                text: "¡Hola! Soy el asistente de IA de Luis. ¿Qué te gustaría saber sobre su portafolio? Puedes preguntarme sobre sus habilidades, proyectos o cómo contactarlo. También puedes usar el micrófono para hablar."
-            }
-        ]);
-    }
   };
 
   const handleSendMessage = async (messageText: string | React.FormEvent) => {
@@ -150,7 +147,6 @@ export function AIChat() {
         const element = document.getElementById(response.sectionId);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          setTimeout(() => setIsOpen(false), 1000);
         }
       }
     } catch (error) {
@@ -263,7 +259,7 @@ export function AIChat() {
                   disabled={isLoading || isRecording}
                 />
                  {recognitionRef.current && (
-                  <Button type="button" size="icon" onClick={handleToggleMic} disabled={isLoading} variant={isRecording ? 'destructive' : 'outline'}>
+                  <Button type="button" size="icon" onClick={handleToggleMic} disabled={isLoading} variant={isRecording ? 'default' : 'outline'}>
                     {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                   </Button>
                 )}
