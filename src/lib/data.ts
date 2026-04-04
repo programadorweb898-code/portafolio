@@ -98,6 +98,19 @@ export const projects: Project[] = [
     liveUrl: "https://debttracker-repo-1.onrender.com",
     repoUrl: "https://github.com/programadorweb898-code/DebtTracker-repo",
   },
+  {
+    title: "Frontend E-commerce",
+    description: "Una interfaz moderna de e-commerce enfocada en la experiencia de compra, con una navegacion fluida y una presentacion clara de productos.",
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS"
+    ],
+    imageId: "project-ecommerce",
+    liveUrl: "https://frontend-e-commerce-pink.vercel.app/",
+    repoUrl: "https://github.com/programadorweb898-code/portafolio.git",
+  },
 ];
 
 type ImagePlaceholder = {
@@ -125,6 +138,12 @@ export const placeholderImages: ImagePlaceholder[] = [
     description: "Captura de pantalla del gestor de cuentas de deudores",
     imageUrl: "/debtTracker_image.jpeg",
     imageHint: "debt tracker dashboard",
+  },
+  {
+    id: "project-ecommerce",
+    description: "Vista previa del proyecto frontend e-commerce",
+    imageUrl: "/image_e-commerce.png",
+    imageHint: "ecommerce storefront",
   },
 ];
 
