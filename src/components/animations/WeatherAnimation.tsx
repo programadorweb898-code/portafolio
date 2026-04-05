@@ -1,9 +1,11 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from 'react';
 
 export function WeatherAnimation() {
-  const [raindrops, setRaindrops] = useState<Array<{ id: number; x: number; delay: number }>>([]);
+  const [raindrops, setRaindrops] = useState<
+    Array<{ id: number; x: number; delay: number }>
+  >([]);
 
   useEffect(() => {
     // Generar gotas de lluvia con posiciones y delays aleatorios
@@ -47,9 +49,12 @@ export function WeatherAnimation() {
           opacity="0.2"
           className="animate-pulse-slow"
         />
-        
+
         {/* Sol */}
-        <g className="animate-spin-slow origin-center" style={{ transformOrigin: '200px 160px' }}>
+        <g
+          className="animate-spin-slow origin-center"
+          style={{ transformOrigin: '200px 160px' }}
+        >
           <circle cx="200" cy="160" r="35" fill="white" opacity="0.9" />
           {/* Rayos del sol */}
           {Array.from({ length: 8 }).map((_, i) => {
@@ -76,10 +81,38 @@ export function WeatherAnimation() {
 
         {/* Nube */}
         <g className="animate-float">
-          <ellipse cx="200" cy="220" rx="50" ry="30" fill="white" opacity="0.95" />
-          <ellipse cx="170" cy="210" rx="35" ry="25" fill="white" opacity="0.95" />
-          <ellipse cx="230" cy="210" rx="35" ry="25" fill="white" opacity="0.95" />
-          <ellipse cx="200" cy="200" rx="40" ry="28" fill="white" opacity="0.95" />
+          <ellipse
+            cx="200"
+            cy="220"
+            rx="50"
+            ry="30"
+            fill="white"
+            opacity="0.95"
+          />
+          <ellipse
+            cx="170"
+            cy="210"
+            rx="35"
+            ry="25"
+            fill="white"
+            opacity="0.95"
+          />
+          <ellipse
+            cx="230"
+            cy="210"
+            rx="35"
+            ry="25"
+            fill="white"
+            opacity="0.95"
+          />
+          <ellipse
+            cx="200"
+            cy="200"
+            rx="40"
+            ry="28"
+            fill="white"
+            opacity="0.95"
+          />
         </g>
 
         {/* Rayos */}
@@ -137,13 +170,49 @@ export function WeatherAnimation() {
       {/* Brújula */}
       <div className="absolute bottom-6 left-6">
         <svg width="50" height="50" viewBox="0 0 50 50" className="opacity-40">
-          <circle cx="25" cy="25" r="23" fill="none" stroke="white" strokeWidth="2" />
-          <text x="25" y="10" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold">N</text>
-          <text x="25" y="45" textAnchor="middle" fill="white" fontSize="10">S</text>
-          <text x="8" y="28" textAnchor="middle" fill="white" fontSize="10">W</text>
-          <text x="42" y="28" textAnchor="middle" fill="white" fontSize="10">E</text>
-          <line x1="25" y1="15" x2="25" y2="35" stroke="white" strokeWidth="2" />
-          <line x1="15" y1="25" x2="35" y2="25" stroke="white" strokeWidth="2" />
+          <circle
+            cx="25"
+            cy="25"
+            r="23"
+            fill="none"
+            stroke="white"
+            strokeWidth="2"
+          />
+          <text
+            x="25"
+            y="10"
+            textAnchor="middle"
+            fill="white"
+            fontSize="10"
+            fontWeight="bold"
+          >
+            N
+          </text>
+          <text x="25" y="45" textAnchor="middle" fill="white" fontSize="10">
+            S
+          </text>
+          <text x="8" y="28" textAnchor="middle" fill="white" fontSize="10">
+            W
+          </text>
+          <text x="42" y="28" textAnchor="middle" fill="white" fontSize="10">
+            E
+          </text>
+          <line
+            x1="25"
+            y1="15"
+            x2="25"
+            y2="35"
+            stroke="white"
+            strokeWidth="2"
+          />
+          <line
+            x1="15"
+            y1="25"
+            x2="35"
+            y2="25"
+            stroke="white"
+            strokeWidth="2"
+          />
         </svg>
       </div>
 
@@ -160,7 +229,8 @@ export function WeatherAnimation() {
 
       <style jsx>{`
         @keyframes float {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px);
           }
           50% {
@@ -183,7 +253,10 @@ export function WeatherAnimation() {
         }
 
         @keyframes lightning {
-          0%, 45%, 55%, 100% {
+          0%,
+          45%,
+          55%,
+          100% {
             opacity: 0;
           }
           50% {
@@ -192,7 +265,8 @@ export function WeatherAnimation() {
         }
 
         @keyframes pulse-slow {
-          0%, 100% {
+          0%,
+          100% {
             transform: scale(1);
             opacity: 0.2;
           }
@@ -212,7 +286,8 @@ export function WeatherAnimation() {
         }
 
         @keyframes twinkle {
-          0%, 100% {
+          0%,
+          100% {
             opacity: 0.2;
             transform: scale(1);
           }

@@ -1,6 +1,6 @@
-import { socialLinks } from "@/lib/data";
-import Link from "next/link";
-import { CodeXml } from "lucide-react";
+import { socialLinks } from '@/lib/data';
+import Link from 'next/link';
+import { CodeXml } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -9,7 +9,8 @@ export function Footer() {
         <div className="flex items-center gap-2">
           <CodeXml className="h-6 w-6 text-primary" />
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Luis Alberto Gómez. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} Luis Alberto Gómez. Todos los
+            derechos reservados.
           </p>
         </div>
         <div className="flex items-center gap-4">

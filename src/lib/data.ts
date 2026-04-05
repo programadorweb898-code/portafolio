@@ -1,8 +1,4 @@
-import {
-  Linkedin,
-  Github,
-  type LucideIcon,
-} from "lucide-react";
+import { Linkedin, Github, type LucideIcon } from 'lucide-react';
 
 // Importar logos reales de tecnologías
 import { SiHtml5 } from 'react-icons/si';
@@ -30,22 +26,22 @@ type Skill = {
 };
 
 export const skills: Skill[] = [
-  { name: "HTML", icon: SiHtml5, color: "#E34F26" },
-  { name: "CSS", icon: SiCss3, color: "#1572B6" },
-  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-  { name: "Python", icon: SiPython, color: "#3776AB" },
-  { name: "React / React Native", icon: SiReact, color: "#61DAFB" },
-  { name: "Next.js", icon: SiNextdotjs, color: "#000000" },
-  { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
-  { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-  { name: "Firebase", icon: SiFirebase, color: "#FFCA28" },
-  { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
-  { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3" },
-  { name: "Material UI", icon: SiMui, color: "#007FFF" },
-  { name: "SQL & NoSQL", icon: SiMongodb, color: "#47A248" },
-  { name: "Git & GitHub", icon: SiGit, color: "#F05032" },
-  { name: "Integración de IA", icon: TbSparkles, color: "#FF6B6B" },
-  { name: "n8n", icon: SiN8N, color: "#EA4B71" },
+  { name: 'HTML', icon: SiHtml5, color: '#E34F26' },
+  { name: 'CSS', icon: SiCss3, color: '#1572B6' },
+  { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
+  { name: 'Python', icon: SiPython, color: '#3776AB' },
+  { name: 'React / React Native', icon: SiReact, color: '#61DAFB' },
+  { name: 'Next.js', icon: SiNextdotjs, color: '#000000' },
+  { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
+  { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
+  { name: 'Firebase', icon: SiFirebase, color: '#FFCA28' },
+  { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4' },
+  { name: 'Bootstrap', icon: SiBootstrap, color: '#7952B3' },
+  { name: 'Material UI', icon: SiMui, color: '#007FFF' },
+  { name: 'SQL & NoSQL', icon: SiMongodb, color: '#47A248' },
+  { name: 'Git & GitHub', icon: SiGit, color: '#F05032' },
+  { name: 'Integración de IA', icon: TbSparkles, color: '#FF6B6B' },
+  { name: 'n8n', icon: SiN8N, color: '#EA4B71' },
 ];
 
 type Project = {
@@ -59,57 +55,55 @@ type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Aplicación del Clima",
-    description: "Una aplicación moderna del clima que proporciona datos meteorológicos en tiempo real y pronósticos para cualquier ubicación en el mundo, utilizando una API de clima de terceros.",
+    title: 'Aplicación del Clima',
+    description:
+      'Una aplicación moderna del clima que proporciona datos meteorológicos en tiempo real y pronósticos para cualquier ubicación en el mundo, utilizando una API de clima de terceros.',
     tech: [
-      "Next.js 15",
-      "React 18",
-      "TypeScript",
-      "Tailwind CSS",
-      "Firebase",
-      "Google Genkit AI",
-      "Shadcn/ui",
-      "Lucide Icons",
-      "React Hook Form",
-      "Zod"
+      'Next.js 15',
+      'React 18',
+      'TypeScript',
+      'Tailwind CSS',
+      'Firebase',
+      'Google Genkit AI',
+      'Shadcn/ui',
+      'Lucide Icons',
+      'React Hook Form',
+      'Zod',
     ],
-    imageId: "project-weather",
-    liveUrl: "https://studio--studio-7002244696-f3e59.us-central1.hosted.app",
-    repoUrl: "https://github.com/programadorweb898-code/clima",
+    imageId: 'project-weather',
+    liveUrl: 'https://studio--studio-7002244696-f3e59.us-central1.hosted.app',
+    repoUrl: 'https://github.com/programadorweb898-code/clima',
   },
   {
-    title: "Gestor de Cuentas de Deudores",
-    description: "Una aplicación colaborativa para gestionar cuentas de deudores, realizar seguimiento de pagos y administrar información financiera de manera eficiente.",
+    title: 'Gestor de Cuentas de Deudores',
+    description:
+      'Una aplicación colaborativa para gestionar cuentas de deudores, realizar seguimiento de pagos y administrar información financiera de manera eficiente.',
     tech: [
-      "Next.js 15",
-      "React 18",
-      "TypeScript",
-      "Firebase",
-      "Firebase Admin",
-      "Firestore",
-      "Tailwind CSS",
-      "Google Genkit AI",
-      "Shadcn/ui",
-      "Framer Motion",
-      "React Hook Form",
-      "Zod"
+      'Next.js 15',
+      'React 18',
+      'TypeScript',
+      'Firebase',
+      'Firebase Admin',
+      'Firestore',
+      'Tailwind CSS',
+      'Google Genkit AI',
+      'Shadcn/ui',
+      'Framer Motion',
+      'React Hook Form',
+      'Zod',
     ],
-    imageId: "project-dashboard",
-    liveUrl: "https://debttracker-repo-1.onrender.com",
-    repoUrl: "https://github.com/programadorweb898-code/DebtTracker-repo",
+    imageId: 'project-dashboard',
+    liveUrl: 'https://debttracker-repo-1.onrender.com',
+    repoUrl: 'https://github.com/programadorweb898-code/DebtTracker-repo',
   },
   {
-    title: "Frontend E-commerce",
-    description: "Una interfaz moderna de e-commerce enfocada en la experiencia de compra, con una navegacion fluida y una presentacion clara de productos.",
-    tech: [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Tailwind CSS"
-    ],
-    imageId: "project-ecommerce",
-    liveUrl: "https://frontend-e-commerce-pink.vercel.app/",
-    repoUrl: "https://github.com/programadorweb898-code/portafolio.git",
+    title: 'Frontend E-commerce',
+    description:
+      'Una interfaz moderna de e-commerce enfocada en la experiencia de compra, con una navegacion fluida y una presentacion clara de productos.',
+    tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+    imageId: 'project-ecommerce',
+    liveUrl: 'https://frontend-e-commerce-pink.vercel.app/',
+    repoUrl: 'https://github.com/programadorweb898-code/portafolio.git',
   },
 ];
 
@@ -122,28 +116,28 @@ type ImagePlaceholder = {
 
 export const placeholderImages: ImagePlaceholder[] = [
   {
-    id: "hero-portrait",
-    description: "Retrato de Luis Alberto Gómez",
-    imageUrl: "/portafolio_image.png",
-    imageHint: "man portrait",
+    id: 'hero-portrait',
+    description: 'Retrato de Luis Alberto Gómez',
+    imageUrl: '/portafolio_image.png',
+    imageHint: 'man portrait',
   },
   {
-    id: "project-weather",
-    description: "Captura de pantalla de la aplicación del clima",
-    imageUrl: "/copilot_image_1768194640523.jpeg",
-    imageHint: "weather forecast application",
+    id: 'project-weather',
+    description: 'Captura de pantalla de la aplicación del clima',
+    imageUrl: '/copilot_image_1768194640523.jpeg',
+    imageHint: 'weather forecast application',
   },
   {
-    id: "project-dashboard",
-    description: "Captura de pantalla del gestor de cuentas de deudores",
-    imageUrl: "/debtTracker_image.jpeg",
-    imageHint: "debt tracker dashboard",
+    id: 'project-dashboard',
+    description: 'Captura de pantalla del gestor de cuentas de deudores',
+    imageUrl: '/debtTracker_image.jpeg',
+    imageHint: 'debt tracker dashboard',
   },
   {
-    id: "project-ecommerce",
-    description: "Vista previa del proyecto frontend e-commerce",
-    imageUrl: "/image_e-commerce.png",
-    imageHint: "ecommerce storefront",
+    id: 'project-ecommerce',
+    description: 'Vista previa del proyecto frontend e-commerce',
+    imageUrl: '/image_e-commerce.png',
+    imageHint: 'ecommerce storefront',
   },
 ];
 
@@ -154,18 +148,26 @@ type SocialLink = {
 };
 
 export const socialLinks: SocialLink[] = [
-  { name: "LinkedIn", url: "https://www.linkedin.com/in/luis-programadorweb", icon: Linkedin },
-  { name: "GitHub", url: "https://github.com/programadorweb898-code", icon: Github },
+  {
+    name: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/luis-programadorweb',
+    icon: Linkedin,
+  },
+  {
+    name: 'GitHub',
+    url: 'https://github.com/programadorweb898-code',
+    icon: Github,
+  },
 ];
 
 type NavLink = {
-    href: string;
-    label: string;
+  href: string;
+  label: string;
 };
 
 export const navLinks: NavLink[] = [
-    { href: "#about", label: "Acerca de" },
-    { href: "#skills", label: "Habilidades" },
-    { href: "#projects", label: "Proyectos" },
-    { href: "#contact", label: "Contacto" },
-]
+  { href: '#about', label: 'Acerca de' },
+  { href: '#skills', label: 'Habilidades' },
+  { href: '#projects', label: 'Proyectos' },
+  { href: '#contact', label: 'Contacto' },
+];

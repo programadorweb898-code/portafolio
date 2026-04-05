@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview Converts text to speech for the portfolio chatbot.
@@ -15,11 +14,15 @@ const PortfolioChatTtsInputSchema = z.object({
 });
 
 const PortfolioChatTtsOutputSchema = z.object({
-  audioDataUri: z.string().describe('The audio data as a Base64 encoded WAV data URI.'),
+  audioDataUri: z
+    .string()
+    .describe('The audio data as a Base64 encoded WAV data URI.'),
 });
 
 export type PortfolioChatTtsInput = z.infer<typeof PortfolioChatTtsInputSchema>;
-export type PortfolioChatTtsOutput = z.infer<typeof PortfolioChatTtsOutputSchema>;
+export type PortfolioChatTtsOutput = z.infer<
+  typeof PortfolioChatTtsOutputSchema
+>;
 
 export async function portfolioChatTts(
   input: PortfolioChatTtsInput
@@ -40,7 +43,7 @@ async function toWav(
       bitDepth: sampleWidth * 8,
     });
 
-    const bufs: any[] = [];
+    const bufs: Buffer[] = [];
     writer.on('error', reject);
     writer.on('data', function (d) {
       bufs.push(d);
@@ -53,7 +56,6 @@ async function toWav(
     writer.end();
   });
 }
-
 
 const portfolioChatTtsFlow = ai.defineFlow(
   {
@@ -74,18 +76,18 @@ const portfolioChatTtsFlow = ai.defineFlow(
       },
       prompt: text,
     });
-    
+
     if (!media || !media.url) {
       throw new Error('No audio media returned from the model.');
     }
-    
+
     const audioBuffer = Buffer.from(
       media.url.substring(media.url.indexOf(',') + 1),
       'base64'
     );
-    
+
     const wavBase64 = await toWav(audioBuffer);
-    
+
     return {
       audioDataUri: 'data:audio/wav;base64,' + wavBase64,
     };

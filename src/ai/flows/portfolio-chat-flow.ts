@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview A portfolio chatbot that answers questions and can scroll to sections.
@@ -10,21 +9,28 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
-import { skills, projects, socialLinks, navLinks } from '@/lib/data';
+import { skills, projects, socialLinks } from '@/lib/data';
 
 // Prepare data for the prompt
-const skillsList = skills.map(s => s.name).join(', ');
-const projectsList = projects.map(p => `- ${p.title}: ${p.description}`).join('\n');
-const socialLinksList = socialLinks.map(s => `- ${s.name}: ${s.url}`).join('\n');
-const personalInfo = "Luis Alberto Gómez is a passionate software developer with over 15 years of experience, specializing in modern, responsive web applications. He is 45 years old.";
+const skillsList = skills.map((s) => s.name).join(', ');
+const projectsList = projects
+  .map((p) => `- ${p.title}: ${p.description}`)
+  .join('\n');
+const socialLinksList = socialLinks
+  .map((s) => `- ${s.name}: ${s.url}`)
+  .join('\n');
+const personalInfo =
+  'Luis Alberto Gómez is a passionate software developer with over 15 years of experience, specializing in modern, responsive web applications. He is 45 years old.';
 
 const PortfolioChatInputSchema = z.object({
-  query: z.string().describe('The user\'s question about the portfolio.'),
+  query: z.string().describe("The user's question about the portfolio."),
 });
 export type PortfolioChatInput = z.infer<typeof PortfolioChatInputSchema>;
 
 const PortfolioChatOutputSchema = z.object({
-  responseText: z.string().describe('The text-based answer to the user\'s query.'),
+  responseText: z
+    .string()
+    .describe("The text-based answer to the user's query."),
   sectionId: z
     .enum(['about', 'skills', 'projects', 'contact', 'none'])
     .describe(
@@ -33,7 +39,9 @@ const PortfolioChatOutputSchema = z.object({
 });
 export type PortfolioChatOutput = z.infer<typeof PortfolioChatOutputSchema>;
 
-export async function portfolioChat(input: PortfolioChatInput): Promise<PortfolioChatOutput> {
+export async function portfolioChat(
+  input: PortfolioChatInput
+): Promise<PortfolioChatOutput> {
   return portfolioChatFlow(input);
 }
 
@@ -84,10 +92,10 @@ const portfolioChatFlow = ai.defineFlow(
     inputSchema: PortfolioChatInputSchema,
     outputSchema: PortfolioChatOutputSchema,
   },
-  async input => {
+  async (input) => {
     const { output } = await prompt(input);
     if (!output) {
-        throw new Error("The AI model did not return an output.");
+      throw new Error('The AI model did not return an output.');
     }
     return output;
   }

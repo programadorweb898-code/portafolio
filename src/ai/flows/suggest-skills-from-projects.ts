@@ -7,8 +7,8 @@
  * - SuggestSkillsFromProjectsOutput - The return type for the suggestSkillsFromProjects function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'zod';
+import { ai } from '@/ai/genkit';
+import { z } from 'zod';
 
 const SuggestSkillsFromProjectsInputSchema = z.object({
   projectDescriptions: z
@@ -22,7 +22,9 @@ export type SuggestSkillsFromProjectsInput = z.infer<
 const SuggestSkillsFromProjectsOutputSchema = z.object({
   suggestedSkills: z
     .array(z.string())
-    .describe('An array of skills suggested based on the project descriptions.'),
+    .describe(
+      'An array of skills suggested based on the project descriptions.'
+    ),
 });
 export type SuggestSkillsFromProjectsOutput = z.infer<
   typeof SuggestSkillsFromProjectsOutputSchema
@@ -36,8 +38,8 @@ export async function suggestSkillsFromProjects(
 
 const prompt = ai.definePrompt({
   name: 'suggestSkillsFromProjectsPrompt',
-  input: {schema: SuggestSkillsFromProjectsInputSchema},
-  output: {schema: SuggestSkillsFromProjectsOutputSchema},
+  input: { schema: SuggestSkillsFromProjectsInputSchema },
+  output: { schema: SuggestSkillsFromProjectsOutputSchema },
   prompt: `You are an expert software development portfolio assistant.
 
 You will review the provided project descriptions and suggest skills that the portfolio owner may have used in these projects but not explicitly listed in their skills section.
@@ -54,8 +56,8 @@ const suggestSkillsFromProjectsFlow = ai.defineFlow(
     inputSchema: SuggestSkillsFromProjectsInputSchema,
     outputSchema: SuggestSkillsFromProjectsOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
+  async (input) => {
+    const { output } = await prompt(input);
     return output!;
   }
 );

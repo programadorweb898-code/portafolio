@@ -1,12 +1,11 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { ArrowDown } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { placeholderImages } from "@/lib/data";
+import { Button } from '@/components/ui/button';
+import { ArrowDown } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { placeholderImages } from '@/lib/data';
 import { cn } from '@/lib/utils';
 
 type HeroSectionProps = {
@@ -14,15 +13,17 @@ type HeroSectionProps = {
 };
 
 export function HeroSection({ profileImageUrl }: HeroSectionProps) {
-  const heroImage = placeholderImages.find(p => p.id === 'hero-portrait');
+  const heroImage = placeholderImages.find((p) => p.id === 'hero-portrait');
   const [animationStep, setAnimationStep] = useState(0);
 
   useEffect(() => {
     const timeouts: NodeJS.Timeout[] = [];
     if (animationStep < 2) {
-      timeouts.push(setTimeout(() => {
-        setAnimationStep(animationStep + 1);
-      }, 3000));
+      timeouts.push(
+        setTimeout(() => {
+          setAnimationStep(animationStep + 1);
+        }, 3000)
+      );
     }
     return () => timeouts.forEach(clearTimeout);
   }, [animationStep]);
@@ -46,26 +47,30 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
     },
     {
       key: 'image',
-      content: heroImage && profileImageUrl ? (
-        <>
-          <Image
-            id="hero-profile-image"
-            src={profileImageUrl}
-            alt={heroImage.description}
-            fill
-            className="rounded-full object-cover shadow-2xl border-4 border-card"
-            data-ai-hint={heroImage.imageHint}
-            priority
-            sizes="(max-width: 1023px) 300px, 400px"
-          />
-          <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-pulse"></div>
-        </>
-      ) : null,
+      content:
+        heroImage && profileImageUrl ? (
+          <>
+            <Image
+              id="hero-profile-image"
+              src={profileImageUrl}
+              alt={heroImage.description}
+              fill
+              className="rounded-full object-cover shadow-2xl border-4 border-card"
+              data-ai-hint={heroImage.imageHint}
+              priority
+              sizes="(max-width: 1023px) 300px, 400px"
+            />
+            <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-pulse"></div>
+          </>
+        ) : null,
     },
   ];
 
   return (
-    <section id="about" className="relative w-full pt-20 lg:pt-28 overflow-hidden">
+    <section
+      id="about"
+      className="relative w-full pt-20 lg:pt-28 overflow-hidden"
+    >
       <div className="absolute inset-0 bg-gradient-to-br from-background to-secondary -z-10"></div>
       <div className="container px-4 md:px-6">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
@@ -78,18 +83,20 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
             </p>
             <div className="max-w-xl mx-auto lg:mx-0 space-y-4">
               <p className="text-lg text-foreground">
-                Especializado en la construcción de aplicaciones web modernas, responsivas y fáciles de usar. Mi objetivo es transformar problemas complejos en soluciones de software elegantes que generen valor empresarial y mejoren la experiencia del usuario.
+                Especializado en la construcción de aplicaciones web modernas,
+                responsivas y fáciles de usar. Mi objetivo es transformar
+                problemas complejos en soluciones de software elegantes que
+                generen valor empresarial y mejoren la experiencia del usuario.
               </p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-start pt-4">
               <Button asChild size="lg">
-                <Link href="#projects">
-                  Ver Mi Trabajo
-                </Link>
+                <Link href="#projects">Ver Mi Trabajo</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <Link href="#contact">
-                  Contáctame <ArrowDown className="ml-2 h-4 w-4 animate-bounce" />
+                  Contáctame{' '}
+                  <ArrowDown className="ml-2 h-4 w-4 animate-bounce" />
                 </Link>
               </Button>
             </div>
@@ -101,7 +108,9 @@ export function HeroSection({ profileImageUrl }: HeroSectionProps) {
                   key={phase.key}
                   className={cn(
                     'absolute inset-0 flex items-center justify-center transition-opacity duration-1000',
-                    animationStep === index ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    animationStep === index
+                      ? 'opacity-100'
+                      : 'opacity-0 pointer-events-none'
                   )}
                 >
                   {phase.content}
