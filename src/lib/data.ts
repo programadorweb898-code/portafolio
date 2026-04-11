@@ -93,7 +93,7 @@ export const projects: Project[] = [
       'Zod',
     ],
     imageId: 'project-dashboard',
-    liveUrl: 'https://debttracker-repo-1.onrender.com',
+    liveUrl: 'https://debt-tracker-users.vercel.app/login',
     repoUrl: 'https://github.com/programadorweb898-code/DebtTracker-repo',
   },
   {
