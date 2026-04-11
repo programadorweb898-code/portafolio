@@ -71,7 +71,7 @@ export const projects: Project[] = [
       'Zod',
     ],
     imageId: 'project-weather',
-    liveUrl: 'https://studio--studio-7002244696-f3e59.us-central1.hosted.app',
+    liveUrl: 'https://clima-world.vercel.app/',
     repoUrl: 'https://github.com/programadorweb898-code/clima',
   },
   {
