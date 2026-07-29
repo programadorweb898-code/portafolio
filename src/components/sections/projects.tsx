@@ -31,11 +31,8 @@ export function ProjectsSection() {
               (p) => p.id === project.imageId
             );
 
-            return (
-              <Card
-                key={project.title}
-                className="flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
-              >
+            const CardContentArea = (
+              <>
                 {projectImage && (
                   <Image
                     src={projectImage.imageUrl}
@@ -61,6 +58,26 @@ export function ProjectsSection() {
                     ))}
                   </div>
                 </CardContent>
+              </>
+            );
+
+            return (
+              <Card
+                key={project.title}
+                className="group relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+              >
+                {project.liveUrl ? (
+                  <Link
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-pointer"
+                  >
+                    {CardContentArea}
+                  </Link>
+                ) : (
+                  CardContentArea
+                )}
                 <CardFooter className="flex justify-end gap-2 bg-secondary/50 p-4">
                   {project.liveUrl && (
                     <Button asChild variant="outline" size="sm">
@@ -79,6 +96,7 @@ export function ProjectsSection() {
                         href={project.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <Github className="mr-2 h-4 w-4" /> Código
                       </Link>

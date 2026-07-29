@@ -24,9 +24,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    turbo: false, // 👈 fuerza Next.js a usar Webpack en vez de Turbopack
-  },
+
 };
 
 export default nextConfig;
