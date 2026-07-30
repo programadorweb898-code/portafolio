@@ -20,7 +20,7 @@ export async function POST(request: Request) {
       from: 'Contacto Portfolio <onboarding@resend.dev>',
       to: email,
       subject: `Nuevo mensaje de ${name}`,
-      react: ContactFormEmail({ name, email, message }),
+      react: <ContactFormEmail name={name} email={email} message={message} />,
     });
 
     if (error) {

@@ -16,7 +16,6 @@ import { SiMui } from 'react-icons/si';
 import { SiMongodb } from 'react-icons/si';
 import { SiGit } from 'react-icons/si';
 import { SiN8N } from 'react-icons/si';
-import { TbSparkles } from 'react-icons/tb';
 import type { IconType } from 'react-icons';
 
 type Skill = {
@@ -40,7 +39,6 @@ export const skills: Skill[] = [
   { name: 'Material UI', icon: SiMui, color: '#007FFF' },
   { name: 'SQL & NoSQL', icon: SiMongodb, color: '#47A248' },
   { name: 'Git & GitHub', icon: SiGit, color: '#F05032' },
-  { name: 'Integración de IA', icon: TbSparkles, color: '#FF6B6B' },
   { name: 'n8n', icon: SiN8N, color: '#EA4B71' },
 ];
 
@@ -64,7 +62,6 @@ export const projects: Project[] = [
       'TypeScript',
       'Tailwind CSS',
       'Firebase',
-      'Google Genkit AI',
       'Shadcn/ui',
       'Lucide Icons',
       'React Hook Form',
@@ -86,7 +83,6 @@ export const projects: Project[] = [
       'Firebase Admin',
       'Firestore',
       'Tailwind CSS',
-      'Google Genkit AI',
       'Shadcn/ui',
       'Framer Motion',
       'React Hook Form',
