@@ -1,30 +1,41 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { z } from 'zod';
 import { ContactFormEmail } from '@/components/emails/contact-form-email';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const contactFormSchema = z.object({
+  name: z.string().min(2, 'Por favor, introduce un nombre de al menos 2 letras.'),
+  email: z.string().email('El formato del correo electrónico no es válido.'),
+  message: z.string().min(10, 'Tu mensaje debe tener al menos 10 caracteres.'),
+});
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, message } = body;
+    
+    // Validar con Zod
+    const validation = contactFormSchema.safeParse(body);
 
-    if (!name || !email || !message) {
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Todos los campos son obligatorios' },
+        { error: 'Datos inválidos', details: validation.error.format() },
         { status: 400 }
       );
     }
 
+    const { name, email, message } = validation.data;
+
     const { data, error } = await resend.emails.send({
-      from: 'Contacto Portfolio <onboarding@resend.dev>',
+      from: 'Portfolio <programadorweb898@gmail.com>',
       to: email,
       subject: `Nuevo mensaje de ${name}`,
       react: <ContactFormEmail name={name} email={email} message={message} />,
     });
 
     if (error) {
-      console.error('Error sending email with Resend:', error);
+      console.error('Error Resend:', error);
       return NextResponse.json(
         { error: 'Error al enviar el correo' },
         { status: 500 }
@@ -33,10 +44,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, data });
   } catch (error) {
-    console.error('Error in contact API:', error);
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    );
+    console.error('Error API:', error);
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }
