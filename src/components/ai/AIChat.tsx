@@ -34,6 +34,7 @@ type Message = {
   role: 'user' | 'assistant';
   text: string;
   image?: string;
+  audioUri?: string;
 };
 
 type SpeechRecognitionResultLike = {
@@ -73,7 +74,7 @@ declare global {
 const initialMessage: Message = {
   id: 'intro',
   role: 'assistant',
-  text: 'Â¡Hola! Soy el asistente de IA de Luis. Â¿QuÃ© te gustarÃ­a saber sobre su portafolio? Puedes preguntarme sobre sus habilidades, proyectos o cÃ³mo contactarlo. TambiÃ©n puedes usar el micrÃ³fono para hablar.',
+  text: '¡Hola! Soy el asistente de IA de Luis. ¿Qué te gustaría saber sobre su portafolio? Puedes preguntarme sobre sus habilidades, proyectos o cómo contactarlo. También puedes usar el micrófono para hablar.',
 };
 
 export function AIChat() {
@@ -82,7 +83,7 @@ export function AIChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [isAudioEnabled, setIsAudioEnabled] = useState(true);
+  const [playingMessageId, setPlayingMessageId] = useState<string | null>(null);
   const [isTtsLoading, setIsTtsLoading] = useState(false);
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -123,21 +124,23 @@ export function AIChat() {
         };
         setMessages((prev) => [...prev, assistantMessage]);
 
-        if (isAudioEnabled) {
-          setIsTtsLoading(true);
-          try {
-            const ttsResponse = await portfolioChatTts({
-              text: response.responseText,
-            });
-            if (audioRef.current) {
-              audioRef.current.src = ttsResponse.audioDataUri;
-              audioRef.current.play();
-            }
-          } catch (ttsError) {
-            console.error('TTS error:', ttsError);
-          } finally {
-            setIsTtsLoading(false);
-          }
+        setIsTtsLoading(true);
+        try {
+          const ttsResponse = await portfolioChatTts({
+            text: response.responseText,
+          });
+          assistantMessage.audioUri = ttsResponse.audioDataUri;
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantMessage.id
+                ? { ...m, audioUri: ttsResponse.audioDataUri }
+                : m
+            )
+          );
+        } catch (ttsError) {
+          console.error('TTS error:', ttsError);
+        } finally {
+          setIsTtsLoading(false);
         }
 
         if (response.sectionId && response.sectionId !== 'none') {
@@ -151,14 +154,14 @@ export function AIChat() {
         const errorMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          text: 'Lo siento, no pude procesar tu solicitud. Por favor, intÃ©ntalo de nuevo.',
+          text: 'Lo siento, no pude procesar tu solicitud. Por favor, inténtalo de nuevo.',
         };
         setMessages((prev) => [...prev, errorMessage]);
       } finally {
         setIsLoading(false);
       }
     },
-    [input, isAudioEnabled, isLoading]
+    [input, isLoading]
   );
 
   useEffect(() => {
@@ -183,9 +186,9 @@ export function AIChat() {
         if (event.error === 'not-allowed') {
           toast({
             variant: 'destructive',
-            title: 'Permiso de micrÃ³fono denegado',
+            title: 'Permiso de micrófono denegado',
             description:
-              'Por favor, habilita el acceso al micrÃ³fono en la configuraciÃ³n de tu navegador para usar el chat de voz.',
+              'Por favor, habilita el acceso al micrófono en la configuración de tu navegador para usar el chat de voz.',
           });
         }
         setIsRecording(false);
@@ -207,9 +210,36 @@ export function AIChat() {
     }
   };
 
+  const handlePlayAudio = (messageId: string, audioUri?: string) => {
+    if (!audioUri || !audioRef.current) return;
+
+    if (playingMessageId === messageId) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setPlayingMessageId(null);
+    } else {
+      audioRef.current.src = audioUri;
+      audioRef.current.play();
+      setPlayingMessageId(messageId);
+    }
+  };
+
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const audioEl = audioRef.current;
+    const handleEnded = () => setPlayingMessageId(null);
+    if (audioEl) {
+      audioEl.addEventListener('ended', handleEnded);
+    }
+    return () => {
+      if (audioEl) {
+        audioEl.removeEventListener('ended', handleEnded);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -240,21 +270,8 @@ export function AIChat() {
               <div>
                 <CardTitle>Asistente de IA</CardTitle>
                 <CardDescription>
-                  PregÃºntame cualquier cosa sobre Luis.
+                  Pregúntame cualquier cosa sobre Luis.
                 </CardDescription>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsAudioEnabled(!isAudioEnabled)}
-                >
-                  {isAudioEnabled ? (
-                    <Volume2 className="h-5 w-5" />
-                  ) : (
-                    <VolumeX className="h-5 w-5 text-red-500" />
-                  )}
-                </Button>
               </div>
             </CardHeader>
             <CardContent className="flex-1 overflow-hidden p-0">
@@ -294,7 +311,23 @@ export function AIChat() {
                             />
                           </div>
                         )}
-                        {message.text}
+                        <p>{message.text}</p>
+                        {message.role === 'assistant' && message.audioUri && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="mt-2 h-7 w-7"
+                            onClick={() =>
+                              handlePlayAudio(message.id, message.audioUri)
+                            }
+                          >
+                            {playingMessageId === message.id ? (
+                              <VolumeX className="h-4 w-4" />
+                            ) : (
+                              <Volume2 className="h-4 w-4" />
+                            )}
+                          </Button>
+                        )}
                       </div>
                       {message.role === 'user' && (
                         <div className="rounded-full bg-muted p-2 text-muted-foreground">

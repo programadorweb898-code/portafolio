@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -10,9 +11,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Mail } from 'lucide-react';
+import { Mail, Loader2, CheckCircle2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/use-toast';
+
+const API_URL = '/api/contact';
 
 type ContactFormData = {
   name: string;
@@ -22,22 +25,27 @@ type ContactFormData = {
 
 export function ContactSection() {
   const { toast } = useToast();
-  const { register, handleSubmit } = useForm<ContactFormData>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const { register, handleSubmit, reset } = useForm<ContactFormData>();
 
   const onSubmit = async (data: ContactFormData) => {
-    try {
-      const response = await fetch(
-        'https://render-repo-36pu.onrender.com/webhook/68877325-a096-45a6-b44e-b25c78b55ff4',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        }
-      );
-      if (!response.ok) throw new Error('Error al enviar el mensaje');
+    setIsSubmitting(true);
+    setIsSuccess(false);
 
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) throw new Error(result.error || 'Error al enviar el mensaje');
+
+      setIsSuccess(true);
+      reset();
       toast({
         title: 'Correo enviado',
         description: 'Tu mensaje ha sido enviado con éxito.',
@@ -51,6 +59,8 @@ export function ContactSection() {
           'No se pudo enviar el correo. Inténtalo de nuevo más tarde.',
         variant: 'destructive',
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -80,37 +90,70 @@ export function ContactSection() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid gap-2">
-                  <Label htmlFor="name">Nombre</Label>
-                  <Input
-                    id="name"
-                    placeholder="Tu Nombre"
-                    {...register('name', { required: true })}
-                  />
+              {isSuccess ? (
+                <div className="flex flex-col items-center gap-4 py-8 text-center">
+                  <CheckCircle2 className="h-16 w-16 text-green-500" />
+                  <p className="text-lg font-semibold">
+                    Mensaje enviado con éxito
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Gracias por contactarme, te responderé pronto.
+                  </p>
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsSuccess(false)}
+                  >
+                    Enviar otro mensaje
+                  </Button>
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Correo Electrónico</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="tu.correo@ejemplo.com"
-                    {...register('email', { required: true })}
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="message">Mensaje</Label>
-                  <Textarea
-                    id="message"
-                    placeholder="Tu mensaje aquí..."
-                    className="min-h-[150px]"
-                    {...register('message', { required: true })}
-                  />
-                </div>
-                <Button type="submit" className="w-full" size="lg">
-                  Enviar Mensaje
-                </Button>
-              </form>
+              ) : (
+                <form
+                  className="grid gap-6"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <div className="grid gap-2">
+                    <Label htmlFor="name">Nombre</Label>
+                    <Input
+                      id="name"
+                      placeholder="Tu Nombre"
+                      {...register('name', { required: true })}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="email">Correo Electrónico</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="tu.correo@ejemplo.com"
+                      {...register('email', { required: true })}
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="message">Mensaje</Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Tu mensaje aquí..."
+                      className="min-h-[150px]"
+                      {...register('message', { required: true })}
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    size="lg"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Enviando...
+                      </>
+                    ) : (
+                      'Enviar Mensaje'
+                    )}
+                  </Button>
+                </form>
+              )}
             </CardContent>
           </Card>
         </div>
