@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const { name, email, message } = validation.data;
 
     const { data, error } = await resend.emails.send({
-      from: 'Portfolio <programadorweb898@gmail.com>',
+      from: 'Portfolio <no-reply@luis.email.com>',
       to: email,
       subject: `Nuevo mensaje de ${name}`,
       react: <ContactFormEmail name={name} email={email} message={message} />,
