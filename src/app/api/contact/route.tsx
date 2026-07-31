@@ -1,13 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { z } from 'zod';
 import { ContactFormEmail } from '@/components/emails/contact-form-email';
-
-const contactFormSchema = z.object({
-  name: z.string().min(2, 'Por favor, introduce un nombre de al menos 2 letras.'),
-  email: z.string().email('El formato del correo electrónico no es válido.'),
-  message: z.string().min(10, 'Tu mensaje debe tener al menos 10 caracteres.'),
-});
+import { contactFormSchema } from '@/lib/schemas/contact-schema';
 
 export async function POST(request: Request) {
   try {

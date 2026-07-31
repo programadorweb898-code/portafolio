@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Card,
   CardContent,
@@ -10,24 +12,28 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Mail, Loader2, CheckCircle2 } from 'lucide-react';
-import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/use-toast';
+import { contactFormSchema, type ContactFormData } from '@/lib/schemas/contact-schema';
 
 const API_URL = '/api/contact';
-
-type ContactFormData = {
-  name: string;
-  email: string;
-  message: string;
-};
 
 export function ContactSection() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const { register, handleSubmit, reset } = useForm<ContactFormData>();
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: { name: '', email: '', message: '' },
+  });
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
@@ -45,7 +51,7 @@ export function ContactSection() {
       if (!response.ok) throw new Error(result.error || 'Error al enviar el mensaje');
 
       setIsSuccess(true);
-      reset();
+      form.reset();
       toast({
         title: 'Correo enviado',
         description: 'Tu mensaje ha sido enviado con éxito.',
@@ -107,52 +113,75 @@ export function ContactSection() {
                   </Button>
                 </div>
               ) : (
-                <form
-                  className="grid gap-6"
-                  onSubmit={handleSubmit(onSubmit)}
-                >
-                  <div className="grid gap-2">
-                    <Label htmlFor="name">Nombre</Label>
-                    <Input
-                      id="name"
-                      placeholder="Tu Nombre"
-                      {...register('name', { required: true })}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="email">Correo Electrónico</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="tu.correo@ejemplo.com"
-                      {...register('email', { required: true })}
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="message">Mensaje</Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tu mensaje aquí..."
-                      className="min-h-[150px]"
-                      {...register('message', { required: true })}
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    size="lg"
-                    disabled={isSubmitting}
+                <Form {...form}>
+                  <form
+                    className="grid gap-6"
+                    onSubmit={form.handleSubmit(onSubmit)}
                   >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Enviando...
-                      </>
-                    ) : (
-                      'Enviar Mensaje'
-                    )}
-                  </Button>
-                </form>
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nombre</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Tu Nombre" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Correo Electrónico</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder="tu.correo@ejemplo.com"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mensaje</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Tu mensaje aquí..."
+                              className="min-h-[150px]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      size="lg"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Enviando...
+                        </>
+                      ) : (
+                        'Enviar Mensaje'
+                      )}
+                    </Button>
+                  </form>
+                </Form>
               )}
             </CardContent>
           </Card>
