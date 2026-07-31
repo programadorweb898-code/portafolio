@@ -3,8 +3,6 @@ import { Resend } from 'resend';
 import { z } from 'zod';
 import { ContactFormEmail } from '@/components/emails/contact-form-email';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Por favor, introduce un nombre de al menos 2 letras.'),
   email: z.string().email('El formato del correo electrónico no es válido.'),
@@ -30,6 +28,11 @@ export async function POST(request: Request) {
     if (!process.env.CONTACT_EMAIL_TO) {
       return NextResponse.json({ error: 'Configuración de servidor incompleta' }, { status: 500 });
     }
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json({ error: 'Configuración de servidor incompleta' }, { status: 500 });
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     // TODO: verificar dominio propio en Resend (SPF/DKIM) antes de producción y volver a from: no-reply@luis.email.com
     const { data, error } = await resend.emails.send({
