@@ -27,9 +27,15 @@ export async function POST(request: Request) {
 
     const { name, email, message } = validation.data;
 
+    if (!process.env.CONTACT_EMAIL_TO) {
+      return NextResponse.json({ error: 'Configuración de servidor incompleta' }, { status: 500 });
+    }
+
+    // TODO: verificar dominio propio en Resend (SPF/DKIM) antes de producción y volver a from: no-reply@luis.email.com
     const { data, error } = await resend.emails.send({
-      from: 'Portfolio <no-reply@luis.email.com>',
-      to: email,
+      from: 'Portfolio <onboarding@resend.dev>',
+      to: process.env.CONTACT_EMAIL_TO,
+      reply_to: email,
       subject: `Nuevo mensaje de ${name}`,
       react: <ContactFormEmail name={name} email={email} message={message} />,
     });
@@ -44,7 +50,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, data });
   } catch (error) {
-    console.error('Error API:', error);
+    console.error('Error API /api/contact:', error instanceof Error ? error.stack : error);
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }
