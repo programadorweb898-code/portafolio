@@ -1,16 +1,16 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
+  CardDescription,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { projects, placeholderImages } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 
 export function ProjectsSection() {
   return (
@@ -27,9 +27,9 @@ export function ProjectsSection() {
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-2">
           {projects.map((project) => {
-            const projectImage = placeholderImages.find(
-              (p) => p.id === project.imageId
-            );
+            const projectImage = project.imageId
+              ? placeholderImages.find((p) => p.id === project.imageId)
+              : undefined;
 
             const CardContentArea = (
               <>
@@ -66,7 +66,11 @@ export function ProjectsSection() {
                 key={project.title}
                 className="group relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
               >
-                {project.liveUrl ? (
+                {project.detailUrl ? (
+                  <Link href={project.detailUrl} className="cursor-pointer">
+                    {CardContentArea}
+                  </Link>
+                ) : project.liveUrl ? (
                   <Link
                     href={project.liveUrl}
                     target="_blank"
@@ -79,6 +83,13 @@ export function ProjectsSection() {
                   CardContentArea
                 )}
                 <CardFooter className="flex justify-end gap-2 bg-secondary/50 p-4">
+                  {project.detailUrl && (
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={project.detailUrl}>
+                        <ArrowRight className="mr-2 h-4 w-4" /> Ver proyecto
+                      </Link>
+                    </Button>
+                  )}
                   {project.liveUrl && (
                     <Button asChild variant="outline" size="sm">
                       <Link
