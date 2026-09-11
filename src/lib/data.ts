@@ -1,21 +1,6 @@
 import { Linkedin, Github, type LucideIcon } from 'lucide-react';
 
-// Importar logos reales de tecnologías
-import { SiHtml5 } from 'react-icons/si';
-import { SiCss3 } from 'react-icons/si';
-import { SiJavascript } from 'react-icons/si';
-import { SiPython } from 'react-icons/si';
-import { SiReact } from 'react-icons/si';
-import { SiNodedotjs } from 'react-icons/si';
-import { SiBootstrap } from 'react-icons/si';
-import { SiNextdotjs } from 'react-icons/si';
-import { SiTypescript } from 'react-icons/si';
-import { SiFirebase } from 'react-icons/si';
-import { SiTailwindcss } from 'react-icons/si';
-import { SiMui } from 'react-icons/si';
-import { SiMongodb } from 'react-icons/si';
-import { SiGit } from 'react-icons/si';
-import { SiN8N } from 'react-icons/si';
+import { SiHtml5, SiCss3, SiJavascript, SiPython, SiReact, SiNodedotjs, SiBootstrap, SiNextdotjs, SiTypescript, SiFirebase, SiTailwindcss, SiMui, SiMongodb, SiGit, SiN8N } from 'react-icons/si';
 import type { IconType } from 'react-icons';
 
 type Skill = {
@@ -46,27 +31,26 @@ type Project = {
   title: string;
   description: string;
   tech: string[];
-  imageId: string;
+  imageId?: string;
   liveUrl?: string;
   repoUrl?: string;
+  detailUrl?: string;
 };
 
 export const projects: Project[] = [
   {
+    title: 'Conversation Memory MCP',
+    description:
+      'Servidor MCP de memoria conversacional persistente para agentes de IA, con PostgreSQL/Neon y pgvector para recuperar contexto entre sesiones.',
+    tech: ['Node.js', 'TypeScript', 'MCP', 'PostgreSQL', 'Neon', 'pgvector', 'Express'],
+    detailUrl: '/projects/conversation-memory-mcp',
+    repoUrl: 'https://github.com/programadorweb898-code/conversation-memory-mcp',
+  },
+  {
     title: 'Aplicación del Clima',
     description:
       'Una aplicación moderna del clima que proporciona datos meteorológicos en tiempo real y pronósticos para cualquier ubicación en el mundo, utilizando una API de clima de terceros.',
-    tech: [
-      'Next.js 15',
-      'React 18',
-      'TypeScript',
-      'Tailwind CSS',
-      'Firebase',
-      'Shadcn/ui',
-      'Lucide Icons',
-      'React Hook Form',
-      'Zod',
-    ],
+    tech: ['Next.js 15', 'React 18', 'TypeScript', 'Tailwind CSS', 'Firebase', 'Shadcn/ui', 'Lucide Icons', 'React Hook Form', 'Zod'],
     imageId: 'project-weather',
     liveUrl: 'https://clima-world.vercel.app/',
     repoUrl: 'https://github.com/programadorweb898-code/clima',
@@ -75,19 +59,7 @@ export const projects: Project[] = [
     title: 'Gestor de Cuentas de Deudores',
     description:
       'Una aplicación colaborativa para gestionar cuentas de deudores, realizar seguimiento de pagos y administrar información financiera de manera eficiente.',
-    tech: [
-      'Next.js 15',
-      'React 18',
-      'TypeScript',
-      'Firebase',
-      'Firebase Admin',
-      'Firestore',
-      'Tailwind CSS',
-      'Shadcn/ui',
-      'Framer Motion',
-      'React Hook Form',
-      'Zod',
-    ],
+    tech: ['Next.js 15', 'React 18', 'TypeScript', 'Firebase', 'Firebase Admin', 'Firestore', 'Tailwind CSS', 'Shadcn/ui', 'Framer Motion', 'React Hook Form', 'Zod'],
     imageId: 'project-dashboard',
     liveUrl: 'https://debt-tracker-users.vercel.app/login',
     repoUrl: 'https://github.com/programadorweb898-code/DebtTracker-repo',
@@ -144,16 +116,8 @@ type SocialLink = {
 };
 
 export const socialLinks: SocialLink[] = [
-  {
-    name: 'LinkedIn',
-    url: 'https://www.linkedin.com/in/luis-programadorweb',
-    icon: Linkedin,
-  },
-  {
-    name: 'GitHub',
-    url: 'https://github.com/programadorweb898-code',
-    icon: Github,
-  },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/luis-programadorweb', icon: Linkedin },
+  { name: 'GitHub', url: 'https://github.com/programadorweb898-code', icon: Github },
 ];
 
 type NavLink = {
