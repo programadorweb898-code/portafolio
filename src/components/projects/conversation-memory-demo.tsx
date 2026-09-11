@@ -10,43 +10,78 @@ const suggestedQuestions = [
   '¿Qué base de datos elegí?',
 ];
 
-const answers: Record<string, string> = {
-  '¿En qué proyecto estaba trabajando?':
-    'Estabas trabajando en TaskFlow, una API de gestión de tareas.',
-  '¿Qué stack estaba usando?':
-    'Estabas usando Node.js, Express y PostgreSQL.',
-  '¿Qué base de datos elegí?':
-    'Elegiste PostgreSQL para persistir los datos de TaskFlow.',
-};
-
 export function ConversationMemoryDemo() {
   const [session, setSession] = useState<1 | 2>(1);
+  const [demoId, setDemoId] = useState('');
   const [question, setQuestion] = useState('');
   const [searching, setSearching] = useState(false);
+  const [starting, setStarting] = useState(false);
   const [answer, setAnswer] = useState('');
+  const [error, setError] = useState('');
 
-  const startNewSession = () => {
-    setSession(2);
-    setQuestion('');
-    setAnswer('');
+  const startNewSession = async () => {
+    setStarting(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/conversation-memory-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'session' }),
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.demoId) {
+        throw new Error(data.error || 'No se pudo iniciar la demo.');
+      }
+
+      setDemoId(data.demoId);
+      setSession(2);
+      setQuestion('');
+      setAnswer('');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'No se pudo iniciar la demo.');
+    } finally {
+      setStarting(false);
+    }
   };
 
-  const recoverContext = (value: string) => {
+  const recoverContext = async (value: string) => {
+    if (!demoId) return;
+
     setQuestion(value);
     setAnswer('');
+    setError('');
     setSearching(true);
 
-    window.setTimeout(() => {
+    try {
+      const response = await fetch('/api/conversation-memory-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'search', demoId, query: value }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'No se pudo recuperar el contexto.');
+      }
+
+      setAnswer(data.context || 'No se encontró contexto relevante.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'No se pudo recuperar el contexto.');
+    } finally {
       setSearching(false);
-      setAnswer(answers[value] ?? 'El contexto relevante fue recuperado desde la sesión anterior.');
-    }, 850);
+    }
   };
 
   const resetDemo = () => {
     setSession(1);
+    setDemoId('');
     setQuestion('');
     setSearching(false);
+    setStarting(false);
     setAnswer('');
+    setError('');
   };
 
   return (
@@ -54,14 +89,14 @@ export function ConversationMemoryDemo() {
       <div className="max-w-3xl">
         <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
           <Sparkles className="h-4 w-4" />
-          Demo interactiva
+          Demo interactiva · memoria real
         </div>
         <h2 id="demo-title" className="mt-3 font-headline text-3xl font-bold">
           See persistent memory in action
         </h2>
         <p className="mt-4 leading-7 text-muted-foreground">
-          Una conversación comienza en una sesión y su contexto puede recuperarse
-          en otra, sin depender de la memoria temporal del agente.
+          Probá el flujo con el backend real de Conversation Memory. Los mensajes de
+          esta demo se guardan en PostgreSQL y se recuperan desde una nueva sesión.
         </p>
       </div>
 
@@ -73,7 +108,7 @@ export function ConversationMemoryDemo() {
           </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span className="rounded-full border px-2.5 py-1">Session 0{session}</span>
-            <span className="rounded-full border px-2.5 py-1">Demo</span>
+            <span className="rounded-full border px-2.5 py-1">Live demo</span>
           </div>
         </div>
 
@@ -107,12 +142,12 @@ export function ConversationMemoryDemo() {
               </div>
 
               <div className="flex items-center gap-2 rounded-xl border border-dashed px-4 py-3 text-xs text-muted-foreground">
-                <Check className="h-4 w-4 text-emerald-600" />
-                Message saved · project: taskflow
+                <Check className="h-4 w-4" />
+                Message saved · PostgreSQL · project: portfolio-demo
               </div>
 
-              <Button onClick={startNewSession} className="w-full sm:w-auto">
-                Start new session
+              <Button onClick={startNewSession} disabled={starting} className="w-full sm:w-auto">
+                {starting ? 'Creating new session...' : 'Start new session'}
               </Button>
             </>
           ) : (
@@ -137,7 +172,7 @@ export function ConversationMemoryDemo() {
                   </div>
                 </div>
 
-                {(searching || answer) && (
+                {(searching || answer || error) && (
                   <div className="flex gap-3">
                     <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border">
                       <Search className="h-4 w-4" />
@@ -147,12 +182,14 @@ export function ConversationMemoryDemo() {
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <span className="animate-pulse">Searching conversation memory...</span>
                         </div>
+                      ) : error ? (
+                        <p className="text-sm text-muted-foreground">{error}</p>
                       ) : (
                         <>
                           <p className="text-sm leading-6">{answer}</p>
                           <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
                             <span className="rounded-full border px-2.5 py-1">✓ searchMessages()</span>
-                            <span className="rounded-full border px-2.5 py-1">✓ Previous session found</span>
+                            <span className="rounded-full border px-2.5 py-1">✓ PostgreSQL context found</span>
                           </div>
                         </>
                       )}
@@ -177,13 +214,13 @@ export function ConversationMemoryDemo() {
 
               <div className="grid gap-3 border-t pt-5 text-xs text-muted-foreground sm:grid-cols-3">
                 <div className="flex items-center gap-2">
-                  <Check className="h-4 w-4" /> MCP tool called
+                  <Check className="h-4 w-4" /> Backend called
                 </div>
                 <div className="flex items-center gap-2">
                   <Database className="h-4 w-4" /> Context retrieved
                 </div>
                 <div className="flex items-center gap-2">
-                  <Check className="h-4 w-4" /> Response generated
+                  <Check className="h-4 w-4" /> Response returned
                 </div>
               </div>
 
@@ -199,17 +236,17 @@ export function ConversationMemoryDemo() {
       <div className="mt-5 rounded-2xl border bg-muted/20 p-5 md:p-6">
         <p className="text-sm font-semibold">How it works</p>
         <div className="mt-4 flex flex-col items-center justify-center gap-2 text-center text-xs font-mono text-muted-foreground sm:flex-row sm:gap-3">
-          <span className="rounded-lg border bg-card px-3 py-2">AI Agent</span>
+          <span className="rounded-lg border bg-card px-3 py-2">Portfolio</span>
           <span>→</span>
-          <span className="rounded-lg border bg-card px-3 py-2">Conversation Memory MCP</span>
+          <span className="rounded-lg border bg-card px-3 py-2">Demo API</span>
+          <span>→</span>
+          <span className="rounded-lg border bg-card px-3 py-2">Conversation Memory</span>
           <span>→</span>
           <span className="rounded-lg border bg-card px-3 py-2">PostgreSQL + pgvector</span>
-          <span>→</span>
-          <span className="rounded-lg border bg-card px-3 py-2">Previous context</span>
         </div>
         <p className="mt-4 text-xs leading-5 text-muted-foreground">
-          Esta es una demostración guiada del flujo. No utiliza credenciales ni datos
-          reales del visitante.
+          La demo usa un proyecto y un agente aislados para no mezclar datos con otras
+          conversaciones. No solicita credenciales ni datos reales del visitante.
         </p>
       </div>
     </section>
