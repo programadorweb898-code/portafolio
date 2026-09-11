@@ -5,9 +5,9 @@ import { Check, Database, MessageSquare, RotateCcw, Search, Sparkles } from 'luc
 import { Button } from '@/components/ui/button';
 
 const suggestedQuestions = [
-  '¿En qué proyecto estaba trabajando?',
-  '¿Qué stack estaba usando?',
-  '¿Qué base de datos elegí?',
+  '¿Qué proyecto estaba construyendo?',
+  '¿Qué tecnologías usa TaskFlow?',
+  '¿Qué base de datos usa TaskFlow?',
 ];
 
 export function ConversationMemoryDemo() {
